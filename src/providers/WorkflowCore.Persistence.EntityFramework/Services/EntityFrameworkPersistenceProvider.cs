@@ -10,6 +10,7 @@ using WorkflowCore.Interface;
 using WorkflowCore.Persistence.EntityFramework.Models;
 using WorkflowCore.Models;
 using WorkflowCore.Persistence.EntityFramework.Interfaces;
+using System.Linq.Expressions;
 
 namespace WorkflowCore.Persistence.EntityFramework.Services
 {
@@ -396,6 +397,19 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
             return taskSchedule;
         }
 
+        public async Task<IEnumerable<TaskSchedule>> GetTaskSchedules(Func<TaskSchedule, bool> expression, CancellationToken cancellationToken = default)
+        {
+            var persistedTaskSchedule = new List<PersistedTaskSchedule>();
+            var taskSchedule = new List<TaskSchedule>();
+
+            using (var db = ConstructDbContext())
+                persistedTaskSchedule = await db.Set<PersistedTaskSchedule>().ToListAsync(cancellationToken);
+
+            foreach (var task in persistedTaskSchedule)
+                taskSchedule.Add(task.ToTaskSchedule());
+
+            return taskSchedule.Where(expression);
+        }
 
         public async Task MarkTaskScheduleProcessed(string id, CancellationToken cancellationToken = default)
         {

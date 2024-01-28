@@ -1,16 +1,26 @@
 ﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using WorkflowCore.Interface;
+using WorkflowCore.Models;
 
 namespace WorkflowCore.Services.BackgroundTasks
 {
+    /// <summary>
+    /// Опросчик расписания запуска задач.
+    /// </summary>
     internal class RunnableTaskSchedule : IBackgroundTask
     {
         private readonly ILogger<RunnableTaskSchedule> _logger;
         private readonly IPersistenceProvider _persistenceProvider;
         private readonly IWorkflowController _workflowController;
+        private Timer _runnableTaskScheduleTimer;
+        private static JsonSerializerSettings _serializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
         public RunnableTaskSchedule(IPersistenceProvider persistenceProvider, IWorkflowController workflowController, ILogger<RunnableTaskSchedule> logger)
         {
@@ -21,12 +31,60 @@ namespace WorkflowCore.Services.BackgroundTasks
 
         public void Start()
         {
-            throw new NotImplementedException();
+            _runnableTaskScheduleTimer = new Timer(new TimerCallback(RunTaskSchedule), null, TimeSpan.FromSeconds(0), TimeSpan.FromMinutes(1));
         }
 
         public void Stop()
         {
-            throw new NotImplementedException();
+            if (_runnableTaskScheduleTimer != null)
+            {
+                _runnableTaskScheduleTimer.Dispose();
+                _runnableTaskScheduleTimer = null;
+            }
+        }
+
+        /// <summary>
+        /// Запустить опрос расписания.
+        /// </summary>
+        private async void RunTaskSchedule(object target)
+        {
+            await RunTaskSchedulePoller();
+        }
+
+        /// <summary>
+        /// Запустить опросчик распиания задач.
+        /// </summary>
+        /// <returns></returns>
+        private async Task RunTaskSchedulePoller()
+        {
+            var taskSchedules = await _persistenceProvider.GetTaskSchedules(x => x.StartTime <= DateTime.Today);
+
+            if (!taskSchedules.Any())
+            {
+                _logger.LogInformation("Taks for start today or earlier not found");
+                return;
+            }
+
+            foreach (var task in taskSchedules)
+            {
+                _logger.LogInformation($"Try start workflow {task.WorkflowId}");
+
+                // Преобразование из json в класс передачи данных.
+                //var serData = JsonConvert.DeserializeObject(task.Data, _serializerSettings);
+
+                try
+                {
+                    string startedWf = await _workflowController.StartWorkflow(task.WorkflowId, task.Version, task.Data);
+                    WorkflowInstance wfInstance = await _persistenceProvider.GetWorkflowInstance(startedWf);
+
+                    _logger.LogInformation($"Workflow {task.WorkflowId} successful started. Instance id {wfInstance.Id}");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Workflow {task.WorkflowId} not started. Exception message {ex.Message}");
+
+                }
+            }
         }
     }
 }

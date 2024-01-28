@@ -74,11 +74,13 @@ namespace WorkflowCore.Persistence.EntityFramework
             TaskSchedule result = new TaskSchedule();
 
             result.Id = instance.Id;
-            result.DefinitionId = instance.DefinitionId;
+            result.WorkflowId = instance.WorkflowId;
             result.StartTime = instance.StartTime;
             result.CompleteTime = instance.CompleteTime;
             result.Result = instance.Result;
             result.IsProcessed = instance.IsProcessed;
+            result.Data = JsonConvert.DeserializeObject(instance.Data, SerializerSettings);
+            result.Version = instance.Version;
 
             return result;
         }
@@ -88,11 +90,13 @@ namespace WorkflowCore.Persistence.EntityFramework
             PersistedTaskSchedule result = new PersistedTaskSchedule();
 
             result.Id = instance.Id;
-            result.DefinitionId = instance.DefinitionId;
+            result.WorkflowId = instance.WorkflowId;
             result.StartTime = instance.StartTime;
             result.CompleteTime = instance.CompleteTime;
             result.Result = instance.Result;
             result.IsProcessed = instance.IsProcessed;
+            result.Data = JsonConvert.SerializeObject(instance.Data, SerializerSettings);
+            result.Version = instance.Version;
 
             return result;
         }

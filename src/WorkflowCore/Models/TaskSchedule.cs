@@ -6,13 +6,17 @@ namespace WorkflowCore.Models
     {
         public string Id { get; set; }
 
-        public string DefinitionId { get; set; }
+        public string WorkflowId { get; set; }
+
+        public int Version { get; set; }
 
         public DateTime StartTime { get; set; }
 
         public DateTime CompleteTime { get; set; }
 
         public bool IsProcessed { get; set; }
+
+        public object Data { get; set; }
 
         public string Result { get; set; }
     }
