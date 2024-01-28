@@ -108,5 +108,15 @@ namespace WorkflowCore.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<TaskSchedule>> GetTaskSchedules(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<TaskSchedule>> GetTaskSchedules(Func<TaskSchedule, bool> expression, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
