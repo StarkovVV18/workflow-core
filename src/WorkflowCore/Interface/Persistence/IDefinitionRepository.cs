@@ -6,8 +6,8 @@ namespace WorkflowCore.Interface.Persistence
 {
     public interface IDefinitionRepository
     {
-        Task<string> CreateDefinition(string definition, CancellationToken cancellationToken = default);
+        Task<Definition> CreateDefinition(Definition definition, CancellationToken cancellationToken = default);
 
-        Task<string> GetDefinition(string id, CancellationToken cancellationToken = default);
+        Task<Definition> GetDefinition(string id, CancellationToken cancellationToken = default);
     }
 }

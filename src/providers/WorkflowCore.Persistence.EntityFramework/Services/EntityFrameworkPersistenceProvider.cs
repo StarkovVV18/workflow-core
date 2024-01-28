@@ -33,12 +33,19 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
 
         #region IDefinition
 
-        public Task<string> CreateDefinition(string definition, CancellationToken cancellationToken = default)
+        public Task<Definition> CreateDefinition(Definition definition, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            using (var db = ConstructDbContext())
+            {
+                newEvent.Id = Guid.NewGuid().ToString();
+                var persistable = newEvent.ToPersistable();
+                var result = db.Set<PersistedEvent>().Add(persistable);
+                await db.SaveChangesAsync(cancellationToken);
+                return newEvent.Id;
+            }
         }
 
-        public Task<string> GetDefinition(string id, CancellationToken cancellationToken = default)
+        public Task<Definition> GetDefinition(string id, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
