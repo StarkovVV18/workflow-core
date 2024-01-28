@@ -382,6 +382,21 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
             }
         }
 
+        public async Task<IEnumerable<TaskSchedule>> GetTaskSchedules(CancellationToken cancellationToken = default)
+        {
+            var persistedTaskSchedule = new List<PersistedTaskSchedule>();
+            var taskSchedule = new List<TaskSchedule>();
+
+            using (var db = ConstructDbContext())
+                persistedTaskSchedule = await db.Set<PersistedTaskSchedule>().ToListAsync(cancellationToken);
+
+            foreach (var task in persistedTaskSchedule)
+                taskSchedule.Add(task.ToTaskSchedule());
+
+            return taskSchedule;
+        }
+
+
         public async Task MarkTaskScheduleProcessed(string id, CancellationToken cancellationToken = default)
         {
             using (var db = ConstructDbContext())
