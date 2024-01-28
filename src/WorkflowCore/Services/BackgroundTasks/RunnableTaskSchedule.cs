@@ -61,7 +61,7 @@ namespace WorkflowCore.Services.BackgroundTasks
 
             if (!taskSchedules.Any())
             {
-                _logger.LogInformation("Taks for start today or earlier not found");
+                _logger.LogInformation("Task for start today or earlier not found");
                 return;
             }
 
