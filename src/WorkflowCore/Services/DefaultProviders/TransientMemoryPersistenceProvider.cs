@@ -78,5 +78,35 @@ namespace WorkflowCore.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<Definition> CreateDefinition(Definition definition, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Definition> GetDefinition(string id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TaskSchedule> CreateTaskSchedule(TaskSchedule taskSchedule, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TaskSchedule> GetTaskSchedule(string id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task MarkTaskScheduleProcessed(string id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task MarkTaskScheduleUnprocessed(string id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
