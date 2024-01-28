@@ -15,6 +15,8 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
         protected abstract void ConfigureSubscriptionStorage(EntityTypeBuilder<PersistedSubscription> builder);
         protected abstract void ConfigureEventStorage(EntityTypeBuilder<PersistedEvent> builder);
         protected abstract void ConfigureScheduledCommandStorage(EntityTypeBuilder<PersistedScheduledCommand> builder);
+        protected abstract void ConfigureDefinition(EntityTypeBuilder<PersistedDefinition> builder);
+        protected abstract void ConfigureTaskSchedule(EntityTypeBuilder<PersistedTaskSchedule> builder);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -43,6 +45,12 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
             commands.HasIndex(x => x.ExecuteTime);
             commands.HasIndex(x => new { x.CommandName, x.Data}).IsUnique();
 
+            var definitions = modelBuilder.Entity<PersistedDefinition>();
+            definitions.HasIndex(x => x.Id).IsUnique();
+
+            var taskSchedules = modelBuilder.Entity<PersistedTaskSchedule>();
+            taskSchedules.HasIndex(x => x.Id).IsUnique();
+
             ConfigureWorkflowStorage(workflows);
             ConfigureExecutionPointerStorage(executionPointers);
             ConfigureExecutionErrorStorage(executionErrors);
@@ -50,6 +58,8 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
             ConfigureSubscriptionStorage(subscriptions);
             ConfigureEventStorage(events);
             ConfigureScheduledCommandStorage(commands);
+            ConfigureDefinition(definitions);
+            ConfigureTaskSchedule(taskSchedules);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
