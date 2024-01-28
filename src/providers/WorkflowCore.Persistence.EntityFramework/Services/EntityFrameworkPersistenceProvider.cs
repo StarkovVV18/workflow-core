@@ -1,13 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading;
+
 using WorkflowCore.Interface;
 using WorkflowCore.Persistence.EntityFramework.Models;
 using WorkflowCore.Models;
 using WorkflowCore.Persistence.EntityFramework.Interfaces;
-using System.Threading;
 
 namespace WorkflowCore.Persistence.EntityFramework.Services
 {
@@ -33,21 +35,35 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
 
         #region IDefinition
 
-        public Task<Definition> CreateDefinition(Definition definition, CancellationToken cancellationToken = default)
+        public async Task<Definition> CreateDefinition(Definition definition, CancellationToken cancellationToken = default)
         {
             using (var db = ConstructDbContext())
             {
-                newEvent.Id = Guid.NewGuid().ToString();
-                var persistable = newEvent.ToPersistable();
-                var result = db.Set<PersistedEvent>().Add(persistable);
+                definition.Id = Guid.NewGuid().ToString();
+                
+                var persistable = definition.ToPersistable();
+                var result = db.Set<PersistedDefinition>().Add(persistable);
+
                 await db.SaveChangesAsync(cancellationToken);
-                return newEvent.Id;
+
+                return definition;
             }
         }
 
-        public Task<Definition> GetDefinition(string id, CancellationToken cancellationToken = default)
+        public async Task<Definition> GetDefinition(string id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            using (var db = ConstructDbContext())
+            {
+                Guid uid = new Guid(id);
+
+                var raw = await db.Set<PersistedDefinition>()
+                    .FirstAsync(x => Guid.Equals(x.Id, uid), cancellationToken);
+
+                if (raw == null)
+                    return null;
+
+                return raw.ToDefinition();
+            }
         }
 
         #endregion
@@ -97,21 +113,6 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
             }
         }
 
-        public async Task MarkEventProcessed(string id, CancellationToken cancellationToken = default)
-        {
-            using (var db = ConstructDbContext())
-            {
-                var uid = new Guid(id);
-                var existingEntity = await db.Set<PersistedEvent>()
-                    .Where(x => x.EventId == uid)
-                    .AsTracking()
-                    .FirstAsync(cancellationToken);
-
-                existingEntity.IsProcessed = true;
-                await db.SaveChangesAsync(cancellationToken);
-            }
-        }
-
         public async Task<IEnumerable<string>> GetEvents(string eventName, string eventKey, DateTime asOf, CancellationToken cancellationToken)
         {
             using (var db = ConstructDbContext())
@@ -128,6 +129,21 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
                     result.Add(s.ToString());
 
                 return result;
+            }
+        }
+
+        public async Task MarkEventProcessed(string id, CancellationToken cancellationToken = default)
+        {
+            using (var db = ConstructDbContext())
+            {
+                var uid = new Guid(id);
+                var existingEntity = await db.Set<PersistedEvent>()
+                    .Where(x => x.EventId == uid)
+                    .AsTracking()
+                    .FirstAsync(cancellationToken);
+
+                existingEntity.IsProcessed = true;
+                await db.SaveChangesAsync(cancellationToken);
             }
         }
 
@@ -335,24 +351,69 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
 
         #region ITaskSchedule
 
-        public Task<TaskSchedule> CreateTaskSchedule(TaskSchedule taskSchedule, CancellationToken cancellationToken = default)
+        public async Task<TaskSchedule> CreateTaskSchedule(TaskSchedule taskSchedule, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            using (var db = ConstructDbContext())
+            {
+                taskSchedule.Id = Guid.NewGuid().ToString();
+
+                var persistable = taskSchedule.ToPersistable();
+                var result = db.Set<PersistedTaskSchedule>().Add(persistable);
+
+                await db.SaveChangesAsync(cancellationToken);
+
+                return taskSchedule;
+            }
         }
 
-        public Task<TaskSchedule> GetTaskSchedule(string id, CancellationToken cancellationToken = default)
+        public async Task<TaskSchedule> GetTaskSchedule(string id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            using (var db = ConstructDbContext())
+            {
+                Guid uid = new Guid(id);
+
+                var raw = await db.Set<PersistedTaskSchedule>()
+                    .FirstAsync(x => Guid.Equals(x.Id, uid), cancellationToken);
+
+                if (raw == null)
+                    return null;
+
+                return raw.ToTaskSchedule();
+            }
         }
 
-        public Task MarkTaskScheduleProcessed(string id, CancellationToken cancellationToken = default)
+        public async Task MarkTaskScheduleProcessed(string id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            using (var db = ConstructDbContext())
+            {
+                var uid = new Guid(id);
+
+                var existingEntity = await db.Set<PersistedTaskSchedule>()
+                    .Where(x => Guid.Equals(x.Id, uid))
+                    .AsTracking()
+                    .FirstAsync(cancellationToken);
+
+                existingEntity.IsProcessed = true;
+
+                await db.SaveChangesAsync(cancellationToken);
+            }
         }
 
-        public Task MarkTaskScheduleUnprocessed(string id, CancellationToken cancellationToken = default)
+        public async Task MarkTaskScheduleUnprocessed(string id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            using (var db = ConstructDbContext())
+            {
+                var uid = new Guid(id);
+
+                var existingEntity = await db.Set<PersistedTaskSchedule>()
+                    .Where(x => Guid.Equals(x.Id, uid))
+                    .AsTracking()
+                    .FirstAsync(cancellationToken);
+
+                existingEntity.IsProcessed = false;
+
+                await db.SaveChangesAsync(cancellationToken);
+            }
         }
 
         #endregion
