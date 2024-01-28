@@ -239,5 +239,55 @@ namespace WorkflowCore.Persistence.EntityFramework
 
             return result;
         }
+
+        internal static Definition ToDefinition(this PersistedDefinition instance)
+        {
+            Definition result = new Definition();
+
+            result.Id = instance.Id;
+            result.Version = instance.Version;
+            result.Value = instance.Value;
+
+            return result;
+        }
+
+        internal static PersistedDefinition ToPersistable(this Definition instance)
+        {
+            PersistedDefinition result = new PersistedDefinition();
+
+            result.Id = instance.Id;
+            result.Version = instance.Version;
+            result.Value = instance.Value;
+
+            return result;
+        }
+
+        internal static TaskSchedule ToTaskSchedule(this PersistedTaskSchedule instance)
+        {
+            TaskSchedule result = new TaskSchedule();
+
+            result.Id = instance.Id;
+            result.DefinitionId = instance.DefinitionId;
+            result.StartTime = instance.StartTime;
+            result.CompleteTime = instance.CompleteTime;
+            result.Result = instance.Result;
+            result.IsProcessed = instance.IsProcessed;
+
+            return result;
+        }
+
+        internal static PersistedTaskSchedule ToPersistable(this TaskSchedule instance)
+        {
+            PersistedTaskSchedule result = new PersistedTaskSchedule();
+
+            result.Id = instance.Id;
+            result.DefinitionId = instance.DefinitionId;
+            result.StartTime = instance.StartTime;
+            result.CompleteTime = instance.CompleteTime;
+            result.Result = instance.Result;
+            result.IsProcessed = instance.IsProcessed;
+
+            return result;
+        }
     }
 }
