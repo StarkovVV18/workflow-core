@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
@@ -69,9 +69,6 @@ namespace WorkflowCore.Services.BackgroundTasks
             {
                 _logger.LogInformation($"Try start workflow {task.WorkflowId}");
 
-                // Преобразование из json в класс передачи данных.
-                //var serData = JsonConvert.DeserializeObject(task.Data, _serializerSettings);
-
                 try
                 {
                     string startedWf = await _workflowController.StartWorkflow(task.WorkflowId, task.Version, task.Data);
@@ -82,7 +79,6 @@ namespace WorkflowCore.Services.BackgroundTasks
                 catch (Exception ex)
                 {
                     _logger.LogError($"Workflow {task.WorkflowId} not started. Exception message {ex.Message}");
-
                 }
             }
         }
