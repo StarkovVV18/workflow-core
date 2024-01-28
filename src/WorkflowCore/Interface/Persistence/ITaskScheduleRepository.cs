@@ -4,7 +4,7 @@ using WorkflowCore.Models;
 
 namespace WorkflowCore.Interface.Persistence
 {
-    public interface ITaskSchedule
+    public interface ITaskScheduleRepository
     {
         Task<TaskSchedule> CreateTaskSchedule(TaskSchedule taskSchedule, CancellationToken cancellationToken = default);
 

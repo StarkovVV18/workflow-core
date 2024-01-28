@@ -7,7 +7,7 @@ using WorkflowCore.Models;
 
 namespace WorkflowCore.Interface
 {
-    public interface IPersistenceProvider : IWorkflowRepository, ISubscriptionRepository, IEventRepository, IScheduledCommandRepository, IDefinitionRepository, ITaskSchedule
+    public interface IPersistenceProvider : IWorkflowRepository, ISubscriptionRepository, IEventRepository, IScheduledCommandRepository, IDefinitionRepository, ITaskScheduleRepository
     {        
 
         Task PersistErrors(IEnumerable<ExecutionError> errors, CancellationToken cancellationToken = default);
