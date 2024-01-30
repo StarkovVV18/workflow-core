@@ -448,6 +448,43 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
             }
         }
 
+        public async Task MarkTaskScheduleCompleted(string id, DateTime completeTime, CancellationToken cancellationToken = default)
+        {
+            using (var db = ConstructDbContext())
+            {
+                var existingEntity = db.Set<PersistedTaskSchedule>()
+                    .Where(x => x.Id == id)
+                    .AsTracking();
+
+                if (!existingEntity.Any())
+                    return;
+
+                var firstRow = existingEntity.FirstOrDefault();
+                firstRow.IsProcessed = false;
+                firstRow.CompleteTime = completeTime;
+
+                await db.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        public async Task MarkTaskScheduleUnCompleted(string id, CancellationToken cancellationToken = default)
+        {
+            using (var db = ConstructDbContext())
+            {
+                var existingEntity = db.Set<PersistedTaskSchedule>()
+                    .Where(x => x.Id == id)
+                    .AsTracking();
+
+                if (!existingEntity.Any())
+                    return;
+
+                var firstRow = existingEntity.FirstOrDefault();
+                firstRow.CompleteTime = null;
+
+                await db.SaveChangesAsync(cancellationToken);
+            }
+        }
+
         #endregion
 
         #region IWorkflow

@@ -57,7 +57,7 @@ namespace WorkflowCore.Services.BackgroundTasks
         /// <returns></returns>
         private async Task RunTaskSchedulePoller()
         {
-            var taskSchedules = await _persistenceProvider.GetTaskSchedules(x => x.StartTime <= DateTime.Now && !x.IsProcessed);
+            var taskSchedules = await _persistenceProvider.GetTaskSchedules(x => x.StartTime <= DateTime.Now && x.CompleteTime == null && !x.IsProcessed);
 
             if (!taskSchedules.Any())
             {
@@ -74,16 +74,15 @@ namespace WorkflowCore.Services.BackgroundTasks
                     string startedWf = await _workflowController.StartWorkflow(task.WorkflowId, task.Version, task.Data);
                     WorkflowInstance wfInstance = await _persistenceProvider.GetWorkflowInstance(startedWf);
 
-                    _logger.LogInformation($"Workflow {task.WorkflowId} successful started. Instance id {wfInstance.Id}");
                     await _persistenceProvider.MarkTaskScheduleProcessed(task.Id, wfInstance.Id);
-                    
+
                     return;
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError($"Workflow {task.WorkflowId} not started. Exception message {ex.Message}");
                     await _persistenceProvider.MarkTaskScheduleUnprocessed(task.Id);
-                    
+
                     return;
                 }
             }

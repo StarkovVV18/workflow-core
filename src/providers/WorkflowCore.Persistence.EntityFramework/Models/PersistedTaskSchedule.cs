@@ -17,7 +17,7 @@ namespace WorkflowCore.Persistence.EntityFramework.Models
 
         public DateTime StartTime { get; set; }
 
-        public DateTime CompleteTime { get; set; }
+        public DateTime? CompleteTime { get; set; }
 
         public bool IsProcessed { get; set; }
 

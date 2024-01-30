@@ -326,6 +326,21 @@ namespace WorkflowCore.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task MarkTaskScheduleProcessed(string id, string instanceId, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task MarkTaskScheduleCompleted(string id, DateTime completeTime, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task MarkTaskScheduleUnCompleted(string id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously

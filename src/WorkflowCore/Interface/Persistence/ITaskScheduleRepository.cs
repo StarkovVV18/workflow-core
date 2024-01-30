@@ -20,5 +20,9 @@ namespace WorkflowCore.Interface.Persistence
         Task MarkTaskScheduleProcessed(string id, string instanceId, CancellationToken cancellationToken = default);
 
         Task MarkTaskScheduleUnprocessed(string id, CancellationToken cancellationToken = default);
+
+        Task MarkTaskScheduleCompleted(string id, DateTime completeTime, CancellationToken cancellationToken = default);
+
+        Task MarkTaskScheduleUnCompleted(string id, CancellationToken cancellationToken = default);
     }
 }

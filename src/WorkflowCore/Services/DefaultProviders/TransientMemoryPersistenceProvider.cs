@@ -118,5 +118,20 @@ namespace WorkflowCore.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task MarkTaskScheduleProcessed(string id, string instanceId, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task MarkTaskScheduleCompleted(string id, DateTime completeTime, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task MarkTaskScheduleUnCompleted(string id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
