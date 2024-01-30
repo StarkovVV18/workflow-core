@@ -42,13 +42,16 @@ namespace SkatWorkerAPI
             services.AddControllers();
 
             // Подключаем свагер.
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(swagger =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
+                swagger.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
                     Title = "SkatWorkerAPI"
                 });
+
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "SkatWorkerAPI.xml");
+                swagger.IncludeXmlComments(filePath);
             });
 
             // Получение пути C:\Users\<User>\AppData\Roaming\
