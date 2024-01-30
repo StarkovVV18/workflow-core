@@ -81,6 +81,7 @@ namespace WorkflowCore.Persistence.EntityFramework
             result.IsProcessed = instance.IsProcessed;
             result.Data = JsonConvert.DeserializeObject(instance.Data, SerializerSettings);
             result.Version = instance.Version;
+            result.InstanceId = instance.InstanceId;
 
             return result;
         }
@@ -97,6 +98,7 @@ namespace WorkflowCore.Persistence.EntityFramework
             result.IsProcessed = instance.IsProcessed;
             result.Data = JsonConvert.SerializeObject(instance.Data, SerializerSettings);
             result.Version = instance.Version;
+            result.InstanceId = instance.InstanceId;
 
             return result;
         }

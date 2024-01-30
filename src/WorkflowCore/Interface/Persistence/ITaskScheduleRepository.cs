@@ -17,7 +17,7 @@ namespace WorkflowCore.Interface.Persistence
 
         Task<IEnumerable<TaskSchedule>> GetTaskSchedules(Func<TaskSchedule, bool> expression, CancellationToken cancellationToken = default);
 
-        Task MarkTaskScheduleProcessed(string id, CancellationToken cancellationToken = default);
+        Task MarkTaskScheduleProcessed(string id, string instanceId, CancellationToken cancellationToken = default);
 
         Task MarkTaskScheduleUnprocessed(string id, CancellationToken cancellationToken = default);
     }

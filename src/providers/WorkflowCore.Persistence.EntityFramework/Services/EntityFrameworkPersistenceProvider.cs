@@ -411,7 +411,7 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
             return taskSchedule.Where(expression);
         }
 
-        public async Task MarkTaskScheduleProcessed(string id, CancellationToken cancellationToken = default)
+        public async Task MarkTaskScheduleProcessed(string id, string instanceId, CancellationToken cancellationToken = default)
         {
             using (var db = ConstructDbContext())
             {
@@ -424,6 +424,7 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
 
                 var firstRow = existingEntity.FirstOrDefault();
                 firstRow.IsProcessed = true;
+                firstRow.InstanceId = instanceId;
 
                 await db.SaveChangesAsync(cancellationToken);
             }

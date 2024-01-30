@@ -8,6 +8,8 @@ namespace WorkflowCore.Models
 
         public string WorkflowId { get; set; }
 
+        public string InstanceId { get; set; }
+
         public int Version { get; set; }
 
         public DateTime StartTime { get; set; }
