@@ -75,7 +75,7 @@ namespace WorkflowCore.Services.BackgroundTasks
                     WorkflowInstance wfInstance = await _persistenceProvider.GetWorkflowInstance(startedWf);
 
                     _logger.LogInformation($"Workflow {task.WorkflowId} successful started. Instance id {wfInstance.Id}");
-                    await _persistenceProvider.MarkTaskScheduleProcessed(task.Id);
+                    await _persistenceProvider.MarkTaskScheduleProcessed(task.Id, wfInstance.Id);
                     
                     return;
                 }
