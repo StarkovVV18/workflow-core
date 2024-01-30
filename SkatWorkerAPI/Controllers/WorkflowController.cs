@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SkatWorker.Workflows.Public.Steps.CopyFiles.Parameters;
-using SkatWorkerAPI.Models;
+
 using System.Dynamic;
 using System.Threading.Tasks;
+
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
+
+using SkatWorker.Workflows.Public.Steps.CopyFiles.Parameters;
+using SkatWorkerAPI.Models;
+
 
 namespace SkatWorkerAPI.Controllers
 {
@@ -75,15 +79,6 @@ namespace SkatWorkerAPI.Controllers
                 Response.StatusCode = 200;
             else
                 Response.StatusCode = 400;
-        }
-
-        [HttpPost("setschedule")]
-        public async Task SetStartTime([FromBody] TaskSheduleParam data)
-        {
-            var taskSchedule = new TaskSchedule { WorkflowId = data.WorkflowId, Version = data.Version, StartTime = data.StartTime, Data = data.Data };
-            var result = await _persistenceProvider.CreateTaskSchedule(taskSchedule);
-
-            Response.StatusCode = 200;
         }
     }
 }
