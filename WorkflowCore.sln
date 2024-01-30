@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowCore.Tests.DynamoDB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowCore.DSL", "src\WorkflowCore.DSL\WorkflowCore.DSL.csproj", "{20B98905-08CB-4854-8E2C-A31A078383E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkatWorkerAPI", "..\SkatWorkerAPI\SkatWorkerAPI.csproj", "{EC2DB3CD-C14B-4329-8113-5A34B6FEDE50}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,10 +68,6 @@ Global
 		{20B98905-08CB-4854-8E2C-A31A078383E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20B98905-08CB-4854-8E2C-A31A078383E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20B98905-08CB-4854-8E2C-A31A078383E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EC2DB3CD-C14B-4329-8113-5A34B6FEDE50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC2DB3CD-C14B-4329-8113-5A34B6FEDE50}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC2DB3CD-C14B-4329-8113-5A34B6FEDE50}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC2DB3CD-C14B-4329-8113-5A34B6FEDE50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,7 +83,6 @@ Global
 		{62A9709E-27DA-42EE-B94F-5AF431D86354} = {E6CEAD8D-F565-471E-A0DC-676F54EAEDEB}
 		{3ECEC028-7E2C-4983-B928-26C073B51BB7} = {E6CEAD8D-F565-471E-A0DC-676F54EAEDEB}
 		{20B98905-08CB-4854-8E2C-A31A078383E9} = {EF47161E-E399-451C-BDE8-E92AAD3BD761}
-		{EC2DB3CD-C14B-4329-8113-5A34B6FEDE50} = {EF47161E-E399-451C-BDE8-E92AAD3BD761}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC0FA8D3-6449-4FDA-BB46-ECF58FAD23B4}
