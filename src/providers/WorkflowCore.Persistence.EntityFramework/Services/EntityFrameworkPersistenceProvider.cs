@@ -415,14 +415,15 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
         {
             using (var db = ConstructDbContext())
             {
-                var uid = new Guid(id);
+                var existingEntity = db.Set<PersistedTaskSchedule>()
+                    .Where(x => x.Id == id)
+                    .AsTracking();
 
-                var existingEntity = await db.Set<PersistedTaskSchedule>()
-                    .Where(x => Guid.Equals(x.Id, uid))
-                    .AsTracking()
-                    .FirstAsync(cancellationToken);
+                if (!existingEntity.Any())
+                    return;
 
-                existingEntity.IsProcessed = true;
+                var firstRow = existingEntity.FirstOrDefault();
+                firstRow.IsProcessed = true;
 
                 await db.SaveChangesAsync(cancellationToken);
             }
@@ -432,14 +433,15 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
         {
             using (var db = ConstructDbContext())
             {
-                var uid = new Guid(id);
+                var existingEntity = db.Set<PersistedTaskSchedule>()
+                    .Where(x => x.Id == id)
+                    .AsTracking();
 
-                var existingEntity = await db.Set<PersistedTaskSchedule>()
-                    .Where(x => Guid.Equals(x.Id, uid))
-                    .AsTracking()
-                    .FirstAsync(cancellationToken);
+                if (!existingEntity.Any())
+                    return;
 
-                existingEntity.IsProcessed = false;
+                var firstRow = existingEntity.FirstOrDefault();
+                firstRow.IsProcessed = false;
 
                 await db.SaveChangesAsync(cancellationToken);
             }
