@@ -5,7 +5,7 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod
     /// <summary>
     /// Бызовый класс реализации способа подключения.
     /// </summary>
-    public abstract class ConnectionTechnique : IConnectionTechnique
+    public abstract class ConnectionTechnique
     {
         /// <summary>
         /// Логин.
@@ -21,11 +21,5 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod
         /// Адрес подключения.
         /// </summary>
         protected string _host = string.Empty;
-
-        public abstract bool Connect(string url, string login, string password);
-
-        public abstract void Disconnect();
-
-        public abstract byte[] Download();
     }
 }

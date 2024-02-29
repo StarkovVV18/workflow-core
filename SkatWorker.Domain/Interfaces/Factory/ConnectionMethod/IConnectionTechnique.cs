@@ -21,8 +21,7 @@
         /// <summary>
         /// Скачать файл с ресурса.
         /// </summary>
-        /// <param name="path">Путь до файла.</param>
-        /// <returns>Скачанный файл в виде массива байт.</returns>
-        byte[] Download();
+        /// <remarks>Скачанный файл сохраняется во временную папку.</remarks>
+        void Download();
     }
 }

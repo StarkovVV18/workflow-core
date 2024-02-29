@@ -2,19 +2,19 @@
 
 namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.Ftp
 {
-    public class FtpConnectionTechnique : ConnectionTechnique
+    public class FtpConnectionTechnique : ConnectionTechnique, IConnectionTechnique
     {
-        public override bool Connect(string url, string login, string password)
+        public bool Connect(string url, string login, string password)
         {
             throw new NotImplementedException();
         }
 
-        public override void Disconnect()
+        public void Disconnect()
         {
             throw new NotImplementedException();
         }
 
-        public override byte[] Download()
+        public void Download()
         {
             throw new NotImplementedException();
         }
