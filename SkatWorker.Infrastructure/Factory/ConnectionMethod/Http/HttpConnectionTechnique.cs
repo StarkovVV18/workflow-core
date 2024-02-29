@@ -1,4 +1,5 @@
 ﻿using SkatWorker.Application.Interfaces.Factory.ConnectionMethod;
+using System.Net;
 
 namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.Http
 {
@@ -20,6 +21,8 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.Http
         {
             if (_requestType == null)
                 throw new InvalidOperationException();
+
+
 
             return null;
         }
