@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SkatWorker.Domain\SkatWorker.Domain.csproj" />
+    <ProjectReference Include="..\SkatWorker.Domain\SkatWorker.Application.csproj" />
     <ProjectReference Include="..\SkatWorker.Workflows\SkatWorker.Workflows.csproj" />
     <ProjectReference Include="..\src\providers\WorkflowCore.Persistence.Sqlite\WorkflowCore.Persistence.Sqlite.csproj" />
     <ProjectReference Include="..\src\WorkflowCore.DSL\WorkflowCore.DSL.csproj" />

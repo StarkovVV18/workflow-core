@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using SkatWorker.Domain.Interfaces;
-using SkatWorker.Domain.Models;
+using SkatWorker.Application.Interfaces;
+using SkatWorker.Application.Models;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 

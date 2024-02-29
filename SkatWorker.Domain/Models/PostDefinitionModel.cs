@@ -1,4 +1,4 @@
-﻿namespace SkatWorker.Domain.Models
+﻿namespace SkatWorker.Application.Models
 {
     public class PostDefinitionModel
     {

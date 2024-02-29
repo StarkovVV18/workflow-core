@@ -1,7 +1,7 @@
-﻿using SkatWorker.Domain.Models;
+﻿using SkatWorker.Application.Models;
 using WorkflowCore.Models;
 
-namespace SkatWorker.Domain.Interfaces
+namespace SkatWorker.Application.Interfaces
 {
     /// <summary>
     /// Сервис для работы с Workflow DSL.

@@ -1,5 +1,5 @@
-﻿using SkatWorker.Domain.Models;
-using SkatWorker.Domain.Interfaces;
+﻿using SkatWorker.Application.Models;
+using SkatWorker.Application.Interfaces;
 using SkatWorker.Workflows.WorkflowDSLReader;
 using SkatWorker.Workflows.WorkflowDSLReader.Inputs;
 using WorkflowCore.Interface;

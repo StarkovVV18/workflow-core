@@ -1,4 +1,4 @@
-﻿using SkatWorker.Domain.Interfaces;
+﻿using SkatWorker.Application.Interfaces;
 using System.Dynamic;
 using WorkflowCore.Interface;
 using Newtonsoft.Json;

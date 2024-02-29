@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using SkatWorker.Domain.Models;
+using SkatWorker.Application.Models;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 using static System.Net.Mime.MediaTypeNames;
