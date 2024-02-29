@@ -20,7 +20,7 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod
         /// <summary>
         /// Адрес подключения.
         /// </summary>
-        protected string _address = string.Empty;
+        protected string _host = string.Empty;
 
         public abstract bool Connect(string url, string login, string password);
 

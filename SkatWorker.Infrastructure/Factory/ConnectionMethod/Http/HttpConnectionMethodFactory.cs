@@ -2,11 +2,16 @@
 
 namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.Http
 {
-    public class HttpConnectionMethodFactory : ConnectionMethodFactory
+    public class HttpConnectionMethodFactory : IConnectionMethodFactory
     {
-        public override IConnectionTechnique GetConnectionTechnique()
+        public IConnectionTechnique GetConnectionTechnique()
         {
             return new HttpConnectionTechnique();
+        }
+
+        public IConnectionTechnique GetConnectionTechnique(Libraries.HttpClient.Enums.HttpMethod httpMethod)
+        {
+            return new HttpConnectionTechnique(httpMethod);
         }
     }
 }
