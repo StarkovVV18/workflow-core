@@ -7,7 +7,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
   /// <summary>
   /// Конструктор заголовков запроса.
   /// </summary>
-  public partial class RequestBuilder
+  public partial class HttpBuilder
   {
     /// <summary>
     /// Провайдер заголовков запроса.
@@ -20,7 +20,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
     /// <param name="key">Имя заголовка.</param>
     /// <param name="value">Значение заголовока.</param>
     /// <returns>Конструктор запроса.</returns>
-    public RequestBuilder Headers(string key, string value)
+    public HttpBuilder Headers(string key, string value)
     {
       if (this.HeaderProvider == null)
       {
@@ -37,7 +37,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
     /// </summary>
     /// <param name="headers">Словарь заголовоков.</param>
     /// <returns>Конструктор запроса.</returns>
-    public RequestBuilder Headers(Dictionary<string, string> headers)
+    public HttpBuilder Headers(Dictionary<string, string> headers)
     {
       if (this.HeaderProvider == null)
       {

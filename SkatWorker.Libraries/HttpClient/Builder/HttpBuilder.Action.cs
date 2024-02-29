@@ -8,7 +8,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
   /// <summary>
   /// Конструктор действий запроса.
   /// </summary>
-  public partial class RequestBuilder
+  public partial class HttpBuilder
   {
     /// <summary>
     /// Ссылка на выполняемый метод в случае успешного запроса.
@@ -30,7 +30,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
     /// </summary>
     /// <param name="action">Выполняемый метод.</param>
     /// <returns>Конструктор запроса.</returns>
-    public RequestBuilder OnSuccess(Action<AppliedResponse> action)
+    public HttpBuilder OnSuccess(Action<AppliedResponse> action)
     {
       this.success = action;
 
@@ -42,7 +42,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
     /// </summary>
     /// <param name="action">Выполняемая метод.</param>
     /// <returns>Конструктор запроса.</returns>
-    public RequestBuilder OnFail(Action<WebException> action)
+    public HttpBuilder OnFail(Action<WebException> action)
     {
       this.fail = action;
 

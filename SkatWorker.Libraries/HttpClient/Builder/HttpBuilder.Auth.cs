@@ -6,7 +6,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
   /// <summary>
   /// Конструктор аутентификации.
   /// </summary>
-  public partial class RequestBuilder
+  public partial class HttpBuilder
   {
     /// <summary>
     /// Провайдер аутентификации.
@@ -19,7 +19,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
     /// <param name="username">Логин.</param>
     /// <param name="password">Пароль.</param>
     /// <returns>Конструктор запроса.</returns>
-    public RequestBuilder Basic(string username, string password)
+    public HttpBuilder Basic(string username, string password)
     {
       this.AuthenticationProvider = new BasicAuthenticationProvider { Password = password, Username = username };
 
@@ -31,7 +31,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
     /// </summary>
     /// <param name="token">Токен.</param>
     /// <returns>Конструктор запроса.</returns>
-    public RequestBuilder Bearer(string token)
+    public HttpBuilder Bearer(string token)
     {
       this.AuthenticationProvider = new BearerAuthenticationProvider { Token = token };
 
@@ -44,7 +44,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
     /// <param name="username">Логин.</param>
     /// <param name="password">Пароль.</param>
     /// <returns>Конструктор запроса.</returns>
-    public RequestBuilder Ntlm(string username, string password)
+    public HttpBuilder Ntlm(string username, string password)
     {
       this.AuthenticationProvider = new NtlmAuthenticationProvider { Username = username, Password = password };
 

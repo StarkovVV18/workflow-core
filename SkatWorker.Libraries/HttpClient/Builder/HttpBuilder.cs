@@ -7,7 +7,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
   /// <summary>
   /// Конструктор запроса.
   /// </summary>
-  public partial class RequestBuilder
+  public partial class HttpBuilder
   {
     /// <summary>
     /// Адрес ресурса.
@@ -24,7 +24,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
     /// </summary>
     /// <param name="url">Адрес ресурса.</param>
     /// <param name="method">Отправляемый HTTP метод.</param>
-    public RequestBuilder(string url, Enums.HttpMethod method)
+    public HttpBuilder(string url, Enums.HttpMethod method)
     {
       Url = url;
       Method = method;

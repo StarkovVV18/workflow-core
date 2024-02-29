@@ -8,7 +8,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
   /// <summary>
   /// Конструктор тела запроса.
   /// </summary>
-  public partial class RequestBuilder
+  public partial class HttpBuilder
   {
     /// <summary>
     /// Провайдер тела запроса.
@@ -20,7 +20,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
     /// </summary>
     /// <param name="content">JSON данные.</param>
     /// <returns>Конструктор запроса.</returns>
-    public RequestBuilder BodyJson(string content)
+    public HttpBuilder BodyJson(string content)
     {
       return this.SetBody(new JsonBodyProvider { Body = Encoding.UTF8.GetBytes(content)});
     }
@@ -30,7 +30,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
     /// </summary>
     /// <param name="content">XML данные.</param>
     /// <returns>Конструктор запроса.</returns>
-    public RequestBuilder BodyXml(string content)
+    public HttpBuilder BodyXml(string content)
     {
       return this.SetBody(new XmlBodyProvider { Body = Encoding.UTF8.GetBytes(content) });
     }
@@ -41,7 +41,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
     /// <param name="pathToFile">Путь до файла.</param>
     /// <param name="inputFormName">Имя контрола формы.</param>
     /// <returns>Конструктор запроса.</returns>
-    public RequestBuilder Upload(string pathToFile, string inputFormName)
+    public HttpBuilder Upload(string pathToFile, string inputFormName)
     {
       return this.SetBody( new MultipartFormDataContentBodyProvider { PathToFile = pathToFile, FormName = inputFormName });
     }
@@ -51,7 +51,7 @@ namespace SkatWorker.Libraries.HttpClient.Builder
     /// </summary>
     /// <param name="provider">Провайдера тела запроса.</param>
     /// <returns>Конструктор запроса.</returns>
-    private RequestBuilder SetBody(IBodyProvider provider)
+    private HttpBuilder SetBody(IBodyProvider provider)
     {
       if (this.Method == Enums.HttpMethod.Get)
       {
