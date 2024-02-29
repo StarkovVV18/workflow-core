@@ -6,7 +6,7 @@ using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
 using SkatWorker.Application.Interfaces.Services;
 
-namespace SkatWorker.Workflows.Services
+namespace SkatWorker.Infrastructure.Services
 {
     public class WorkflowService : IWorkflowService
     {

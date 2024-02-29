@@ -1,5 +1,5 @@
-﻿using SkatWorker.Workflows.WorkflowDSLReader;
-using SkatWorker.Workflows.WorkflowDSLReader.Inputs;
+﻿//using SkatWorker.Workflows.WorkflowDSLReader;
+//using SkatWorker.Workflows.WorkflowDSLReader.Inputs;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 using WorkflowCore.Services.DefinitionStorage;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using SkatWorker.Application.Interfaces.Services;
 using SkatWorker.Application.Interfaces.Models;
 
-namespace SkatWorker.Workflows.Services
+namespace SkatWorker.Infrastructure.Services
 {
     public class DefinitionService : IDefinitionService
     {
@@ -81,7 +81,7 @@ namespace SkatWorker.Workflows.Services
             return result;
         }
 
-        public WorkflowDefinition RegisterNewDefinition(IEnumerable<PostDefinitionModel> datasets)
+        public WorkflowDefinition RegisterNewDefinition(IEnumerable<IDefinitionModel> datasets)
         {
             var type = Deserializers.Json;
             WorkflowDefinition result = null;

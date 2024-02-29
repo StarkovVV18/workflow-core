@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SkatWorker.Domain\SkatWorker.Application.csproj" />
+    <ProjectReference Include="..\src\WorkflowCore.DSL\WorkflowCore.DSL.csproj" />
+  </ItemGroup>
+
 </Project>

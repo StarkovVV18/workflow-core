@@ -25,7 +25,7 @@ namespace SkatWorkerAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<WorkflowDefinition>> Post([FromBody] IEnumerable<PostDefinitionModel> datasets)
+        public async Task<ActionResult<WorkflowDefinition>> Post([FromBody] IEnumerable<IDefinitionModel> datasets)
         {
             var result = _definitionService.RegisterNewDefinition(datasets);
 
