@@ -14,7 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using WorkflowCore.Interface;
-using SkatWorker.Workflows.Services;
+using SkatWorker.Infrastructure.Services;
 using SkatWorker.Workflows.WorkflowDSLReader.Steps;
 using SkatWorker.Workflows.WorkflowDSLReader.Inputs;
 using SkatWorker.Workflows.WorkflowDSLReader;
