@@ -2,19 +2,19 @@
 
 namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.NetworkFolder
 {
-    public class NetworkFolderConnectionTechnique : ConnectionTechnique, IConnectionTechnique
+    public class NetworkFolderConnectionTechnique : ConnectionTechnique
     {
-        public bool Connect(string url, string login, string password)
+        public override bool Connect(string url, string login, string password)
         {
             throw new NotImplementedException();
         }
 
-        public void Disconnect()
+        public override void Disconnect()
         {
             throw new NotImplementedException();
         }
 
-        public byte[] Download()
+        public override byte[] Download()
         {
             throw new NotImplementedException();
         }

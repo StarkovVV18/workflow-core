@@ -1,9 +1,11 @@
-﻿namespace SkatWorker.Infrastructure.Factory.ConnectionMethod
+﻿using SkatWorker.Application.Interfaces.Factory.ConnectionMethod;
+
+namespace SkatWorker.Infrastructure.Factory.ConnectionMethod
 {
     /// <summary>
     /// Бызовый класс реализации способа подключения.
     /// </summary>
-    public abstract class ConnectionTechnique
+    public abstract class ConnectionTechnique : IConnectionTechnique
     {
         /// <summary>
         /// Логин.
@@ -19,5 +21,11 @@
         /// Адрес подключения.
         /// </summary>
         protected string _address = string.Empty;
+
+        public abstract bool Connect(string url, string login, string password);
+
+        public abstract void Disconnect();
+
+        public abstract byte[] Download();
     }
 }
