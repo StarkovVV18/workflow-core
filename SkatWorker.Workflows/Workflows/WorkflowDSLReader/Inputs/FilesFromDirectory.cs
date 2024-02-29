@@ -1,4 +1,4 @@
-﻿using SkatWorker.Application.Models;
+﻿using SkatWorker.Application.Interfaces.Models;
 
 namespace SkatWorker.Workflows.WorkflowDSLReader.Inputs
 {

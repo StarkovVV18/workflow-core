@@ -1,7 +1,7 @@
-﻿using SkatWorker.Application.Models;
+﻿using SkatWorker.Application.Interfaces.Models;
 using WorkflowCore.Models;
 
-namespace SkatWorker.Application.Interfaces
+namespace SkatWorker.Application.Interfaces.Services
 {
     /// <summary>
     /// Сервис для работы с Workflow DSL.
@@ -17,7 +17,7 @@ namespace SkatWorker.Application.Interfaces
         /// Зарегистрировать определение.
         /// </summary>
         /// <param name="datasets">Список определений в json формате.</param>
-        WorkflowDefinition RegisterNewDefinition(IEnumerable<PostDefinitionModel> datasets);
+        WorkflowDefinition RegisterNewDefinition(IEnumerable<IDefinitionModel> datasets);
 
         /// <summary>
         /// Зарегистрировать определение.
@@ -30,7 +30,7 @@ namespace SkatWorker.Application.Interfaces
         /// </summary>
         /// <param name="definition">Определение.</param>
         void ReplaceVersion(string definition);
-        
+
         /// <summary>
         /// Получить опеределение.
         /// </summary>

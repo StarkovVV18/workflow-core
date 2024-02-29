@@ -1,6 +1,6 @@
-﻿namespace SkatWorker.Application.Models
+﻿namespace SkatWorker.Application.Interfaces.Models
 {
-    public class PostDefinitionModel
+    public interface IDefinitionModel
     {
         public string WorkflowId { get; set; }
         public string Value { get; set; }

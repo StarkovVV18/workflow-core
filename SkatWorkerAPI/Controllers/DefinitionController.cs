@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using SkatWorker.Application.Interfaces;
-using SkatWorker.Application.Models;
 using WorkflowCore.Interface;
 using System.Threading.Tasks;
 using WorkflowCore.Models;
+using SkatWorker.Application.Interfaces.Services;
+using SkatWorker.Application.Interfaces.Models;
 
 namespace SkatWorkerAPI.Controllers
 {

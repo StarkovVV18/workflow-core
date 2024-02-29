@@ -1,10 +1,10 @@
-﻿using SkatWorker.Application.Interfaces;
-using System.Dynamic;
+﻿using System.Dynamic;
 using WorkflowCore.Interface;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
+using SkatWorker.Application.Interfaces.Services;
 
 namespace SkatWorker.Workflows.Services
 {

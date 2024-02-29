@@ -1,11 +1,11 @@
-﻿using SkatWorker.Application.Models;
-using SkatWorker.Application.Interfaces;
-using SkatWorker.Workflows.WorkflowDSLReader;
+﻿using SkatWorker.Workflows.WorkflowDSLReader;
 using SkatWorker.Workflows.WorkflowDSLReader.Inputs;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 using WorkflowCore.Services.DefinitionStorage;
 using Microsoft.Extensions.Logging;
+using SkatWorker.Application.Interfaces.Services;
+using SkatWorker.Application.Interfaces.Models;
 
 namespace SkatWorker.Workflows.Services
 {
