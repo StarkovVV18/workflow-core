@@ -6,9 +6,9 @@
     public interface IConnectionMethodFactory
     {
         /// <summary>
-        /// Получить способов подключения.
+        /// Получить способ подключения.
         /// </summary>
-        /// <returns></returns>
-        static IConnectionTechnique GetConnectionTechnique();
+        /// <returns>Способ подключения.</returns>
+        IConnectionTechnique GetConnectionTechnique();
     }
 }
