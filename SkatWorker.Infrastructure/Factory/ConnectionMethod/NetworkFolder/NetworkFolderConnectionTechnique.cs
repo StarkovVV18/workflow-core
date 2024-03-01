@@ -14,7 +14,7 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.NetworkFolder
             throw new NotImplementedException();
         }
 
-        public void Download()
+        public string Download()
         {
             throw new NotImplementedException();
         }
