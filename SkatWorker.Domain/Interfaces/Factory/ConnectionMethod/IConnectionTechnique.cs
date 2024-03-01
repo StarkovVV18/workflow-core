@@ -38,10 +38,8 @@
         /// <summary>
         /// Подключиться.
         /// </summary>
-        /// <param name="url">Адрес подключения.</param>
-        /// <param name="login">Логин.</param>
-        /// <param name="password">Пароль.</param>
-        bool Connect(string url, string login, string password);
+        /// <returns>True, false.</returns>
+        bool Connect();
 
         /// <summary>
         /// Отключиться.

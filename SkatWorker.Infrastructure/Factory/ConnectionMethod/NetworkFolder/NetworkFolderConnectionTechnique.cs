@@ -2,9 +2,16 @@
 
 namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.NetworkFolder
 {
-    public class NetworkFolderConnectionTechnique : ConnectionTechnique, IConnectionTechnique
+    public class NetworkFolderConnectionTechnique : IConnectionTechnique
     {
-        public bool Connect(string url, string login, string password)
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public string Host { get; set; }
+        public string FileName { get; set; }
+        public string SourcePathToFile { get; set; }
+        public string FileExtension { get; set; }
+
+        public bool Connect()
         {
             throw new NotImplementedException();
         }

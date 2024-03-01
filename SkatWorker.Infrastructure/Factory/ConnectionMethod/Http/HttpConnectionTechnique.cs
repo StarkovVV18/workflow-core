@@ -18,7 +18,6 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.Http
         /// </summary>
         private string _savedFile;
 
-
         public string Login { get; set; }
         public string Password { get; set; }
         public string Host { get; set; }
@@ -33,7 +32,7 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.Http
             _httpMethod = httpMethod;
         }
 
-        public bool Connect(string url, string login, string password)
+        public bool Connect()
         {
             throw new NotImplementedException();
         }
