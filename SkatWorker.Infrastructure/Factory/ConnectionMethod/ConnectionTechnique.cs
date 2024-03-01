@@ -10,16 +10,26 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod
         /// <summary>
         /// Логин.
         /// </summary>
-        protected string _login = string.Empty;
+        protected string Login = string.Empty;
 
         /// <summary>
         /// Пароль.
         /// </summary>
-        protected string _password = string.Empty;
+        protected string Password = string.Empty;
 
         /// <summary>
         /// Адрес подключения.
         /// </summary>
-        protected string _host = string.Empty;
+        protected string Host = string.Empty;
+
+        /// <summary>
+        /// Имя файла.
+        /// </summary>
+        protected string FileName = string.Empty;
+
+        /// <summary>
+        /// Путь до файла.
+        /// </summary>
+        protected string PathToFile = string.Empty;
     }
 }

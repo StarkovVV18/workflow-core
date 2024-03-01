@@ -9,6 +9,6 @@
         /// Получить способов подключения.
         /// </summary>
         /// <returns></returns>
-        IConnectionTechnique GetConnectionTechnique();
+        static IConnectionTechnique GetConnectionTechnique();
     }
 }

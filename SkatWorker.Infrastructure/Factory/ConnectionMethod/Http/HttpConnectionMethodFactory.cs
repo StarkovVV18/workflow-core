@@ -4,12 +4,12 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.Http
 {
     public class HttpConnectionMethodFactory : IConnectionMethodFactory
     {
-        public IConnectionTechnique GetConnectionTechnique()
+        public static IConnectionTechnique GetConnectionTechnique()
         {
             return new HttpConnectionTechnique();
         }
 
-        public IConnectionTechnique GetConnectionTechnique(Libraries.HttpClient.Enums.HttpMethod httpMethod)
+        public static IConnectionTechnique GetConnectionTechnique(Libraries.HttpClient.Enums.HttpMethod httpMethod)
         {
             return new HttpConnectionTechnique(httpMethod);
         }
