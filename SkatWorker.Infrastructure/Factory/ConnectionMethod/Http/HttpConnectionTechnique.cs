@@ -58,7 +58,7 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.Http
 
         private void DownloadOnSuccess(AppliedResponse response)
         {
-            string fullPath = this.GetPathFromSaveFile(response.Headers);
+            string fullPath = this.GetPathOnSaveFile(response.Headers);
 
             try
             {
@@ -76,7 +76,7 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.Http
             throw new NotImplementedException();
         }
 
-        private string GetPathFromSaveFile(WebHeaderCollection headers)
+        private string GetPathOnSaveFile(WebHeaderCollection headers)
         {
             string tempPath = Path.GetTempPath();
             string tempFileName = !string.IsNullOrEmpty(this.FileExtension) ? $"{Guid.NewGuid().ToString()}.{this.FileExtension}" : Guid.NewGuid().ToString();
