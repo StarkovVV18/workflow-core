@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using SkatWorker.Infrastructure.Factory.ConnectionMethod.Http;
+using SkatWorker.Libraries.HttpClient.Builder;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
@@ -15,14 +17,34 @@ namespace SkatWorker.Workflows.Public.Steps.HttpDownloader
         private readonly ILogger<HttpDownloader> _logger;
 
         /// <summary>
-        /// Источник.
+        /// Логин.
         /// </summary>
-        public string SourcePath { get; set; }
+        public string Login { get; set; }
 
         /// <summary>
-        /// Назначение.
+        /// Пароль.
         /// </summary>
-        public string DestinationPath { get; set; }
+        public string Password { get; set; }
+        
+        /// <summary>
+        /// URL адрес.
+        /// </summary>
+        public string Host { get; set; }
+        
+        /// <summary>
+        /// Имя файла с расширением.
+        /// </summary>
+        public string FileName { get; set; }
+
+        /// <summary>
+        /// Путь до скачанного файла.
+        /// </summary>
+        public string SavedFile { get; set; }
+
+        /// <summary>
+        /// Тип запроса.
+        /// </summary>
+        public Libraries.HttpClient.Enums.HttpMethod HttpMethod { get; set; }
 
         public HttpDownloader(ILogger<HttpDownloader> logger)
         {
@@ -31,18 +53,14 @@ namespace SkatWorker.Workflows.Public.Steps.HttpDownloader
 
         public override ExecutionResult Run(IStepExecutionContext context)
         {
-            if (string.IsNullOrEmpty(SourcePath) || !File.Exists(SourcePath))
-            {
-                _logger.LogInformation(string.Format("CopyFile. Source file {0} not found or empty", SourcePath));
+            var httpConnection = new HttpConnectionMethodFactory().GetConnectionTechnique(HttpMethod);
 
-                return ExecutionResult.Outcome("Source file not found or empty");
-            }
+            httpConnection.Login = Login;
+            httpConnection.Password = Password;
+            httpConnection.Host = Host;
+            httpConnection.FileName = FileName;
 
-            _logger.LogInformation(string.Format("CopyFile. File copy from {0} to {1}", SourcePath, DestinationPath));
-
-            string destinationFullPath = Path.Combine(DestinationPath, Path.GetFileName(SourcePath));
-
-            File.Copy(SourcePath, destinationFullPath, true);
+            SavedFile = httpConnection.Download();
 
             return ExecutionResult.Next();
         }

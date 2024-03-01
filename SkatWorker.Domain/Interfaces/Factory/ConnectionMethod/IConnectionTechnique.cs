@@ -52,6 +52,6 @@
         /// Скачать файл с ресурса.
         /// </summary>
         /// <remarks>Скачанный файл сохраняется во временную папку.</remarks>
-        void Download();
+        string Download();
     }
 }

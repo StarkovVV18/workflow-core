@@ -8,8 +8,16 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.Http
 {
     public class HttpConnectionTechnique : IConnectionTechnique
     {
+        /// <summary>
+        /// Тип запроса.
+        /// </summary>
         private Libraries.HttpClient.Enums.HttpMethod? _httpMethod;
-        private byte[] _file;
+        
+        /// <summary>
+        /// Путь до скачанного файла.
+        /// </summary>
+        private string _savedFile;
+
 
         public string Login { get; set; }
         public string Password { get; set; }
@@ -35,7 +43,7 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.Http
             throw new NotImplementedException();
         }
 
-        public void Download()
+        public string Download()
         {
             if (_httpMethod == null)
                 throw new InvalidOperationException();
@@ -44,14 +52,23 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.Http
             httpBuilder.OnSuccess(DownloadOnSuccess)
                 .OnFail(DownloadOnFail)
                 .Send();
+
+            return _savedFile;
         }
 
         private void DownloadOnSuccess(AppliedResponse response)
         {
             string fullPath = this.GetPathFromSaveFile(response.Headers);
 
-            using (FileStream fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
-                response.Response.CopyTo(fileStream);
+            try
+            {
+                using (FileStream fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
+                    response.Response.CopyTo(fileStream);
+
+                _savedFile = fullPath;
+            }
+            // TODO: Обработать исключение.
+            catch (Exception e) { }
         }
 
         private void DownloadOnFail(WebException exception)
