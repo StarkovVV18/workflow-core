@@ -24,7 +24,7 @@ namespace SkatWorker.Workflows.Public.Steps.SystemService
         public string ServiceName { get; set; }
 
         /// <summary>
-        /// Действие со службой.
+        /// Действие над службой.
         /// </summary>
         public SystemServiceCommand SystemServiceCommand { get; set; }
 
