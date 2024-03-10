@@ -648,19 +648,48 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
             }
         }
 
-        public Task<StepResult> GetStepResult(string id, CancellationToken cancellationToken = default)
+        public async Task<StepResult> GetStepResult(string id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            using (var db = ConstructDbContext())
+            {
+                Guid uid = new Guid(id);
+
+                var raw = await db.Set<PersistedStepResult>()
+                    .FirstAsync(x => Guid.Equals(x.Id, uid), cancellationToken);
+
+                if (raw == null)
+                    return null;
+
+                return raw.ToStepResult();
+            }
         }
 
-        public Task<IEnumerable<StepResult>> GetStepResults(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<StepResult>> GetStepResults(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var persistedStepResults = new List<PersistedStepResult>();
+            var stepResults = new List<StepResult>();
+
+            using (var db = ConstructDbContext())
+                persistedStepResults = await db.Set<PersistedStepResult>().ToListAsync(cancellationToken);
+
+            foreach (var stepResult in persistedStepResults)
+                stepResults.Add(stepResult.ToStepResult());
+
+            return stepResults;
         }
 
-        public Task<IEnumerable<StepResult>> GetStepResult(Func<StepResult, bool> expression, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<StepResult>> GetStepResult(Func<StepResult, bool> expression, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var persistedStepResults = new List<PersistedStepResult>();
+            var stepResults = new List<StepResult>();
+
+            using (var db = ConstructDbContext())
+                persistedStepResults = await db.Set<PersistedStepResult>().ToListAsync(cancellationToken);
+
+            foreach (var stepResult in persistedStepResults)
+                stepResults.Add(stepResult.ToStepResult());
+
+            return stepResults.Where(expression);
         }
 
         #endregion
