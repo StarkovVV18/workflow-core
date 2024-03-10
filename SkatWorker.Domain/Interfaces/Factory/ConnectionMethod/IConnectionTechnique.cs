@@ -36,6 +36,11 @@
         string FileExtension { get; set; }
 
         /// <summary>
+        /// Ошибки при выполнении запроса.
+        /// </summary>
+        IEnumerable<string> Errors { get; set; }
+
+        /// <summary>
         /// Подключиться.
         /// </summary>
         /// <returns>True, false.</returns>

@@ -22,6 +22,7 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.Ftp
         public string FileName { get; set; }
         public string SourcePathToFile { get; set; }
         public string FileExtension { get; set; }
+        public IEnumerable<string> Errors { get; set; }
 
         public bool Connect()
         {

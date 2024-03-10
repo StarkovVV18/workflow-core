@@ -24,6 +24,7 @@ namespace SkatWorker.Infrastructure.Factory.ConnectionMethod.Http
         public string FileName { get; set; }
         public string SourcePathToFile { get; set; }
         public string FileExtension { get; set; }
+        public IEnumerable<string> Errors { get; set; }
 
         public HttpConnectionTechnique() { }
 
