@@ -10,6 +10,8 @@ namespace WorkflowCore.Models
 
         public string Name { get; }
 
+        public string Result { get; set; }
+
         public Task<ExecutionResult> RunAsync(IStepExecutionContext context)
         {
             return Task.FromResult(Run(context));
