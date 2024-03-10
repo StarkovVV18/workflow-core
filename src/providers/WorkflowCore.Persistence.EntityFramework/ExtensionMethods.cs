@@ -323,5 +323,47 @@ namespace WorkflowCore.Persistence.EntityFramework
         }
 
         #endregion
+
+        #region StepResult
+
+        internal static PersistedStepResult ToPersistable(this StepResult instance)
+        {
+            var result = new PersistedStepResult();
+
+            result.Id = instance.Id;
+            result.WorkflowDefinitionId = instance.WorkflowDefinitionId;
+            result.Name = instance.Name;
+            result.WorkflowId = instance.WorkflowId;
+            result.StartTime = instance.StartTime;
+            result.CompleteTime = instance.CompleteTime;
+            result.Result = instance.Result;
+            result.IsProcessed = instance.IsProcessed;
+            result.Data = JsonConvert.SerializeObject(instance.Data, SerializerSettings);
+            result.Version = instance.Version;
+            result.InstanceId = instance.InstanceId;
+
+            return result;
+        }
+
+        internal static StepResult ToStepResult(this PersistedStepResult instance)
+        {
+            var result = new StepResult();
+
+            result.Id = instance.Id;
+            result.WorkflowDefinitionId = instance.WorkflowDefinitionId;
+            result.Name = instance.Name;
+            result.WorkflowId = instance.WorkflowId;
+            result.StartTime = instance.StartTime;
+            result.CompleteTime = instance.CompleteTime;
+            result.Result = instance.Result;
+            result.IsProcessed = instance.IsProcessed;
+            result.Data = JsonConvert.DeserializeObject(instance.Data, SerializerSettings);
+            result.Version = instance.Version;
+            result.InstanceId = instance.InstanceId;
+
+            return result;
+        }
+
+        #endregion
     }
 }

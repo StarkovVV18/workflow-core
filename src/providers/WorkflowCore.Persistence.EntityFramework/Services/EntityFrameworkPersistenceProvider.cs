@@ -630,5 +630,39 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
         }
 
         #endregion
+
+        #region IStepResult
+
+        public async Task<StepResult> CreateStepResult(StepResult stepResult, CancellationToken cancellationToken = default)
+        {
+            using (var db = ConstructDbContext())
+            {
+                stepResult.Id = Guid.NewGuid().ToString();
+
+                var persistable = stepResult.ToPersistable();
+                var result = db.Set<PersistedStepResult>().Add(persistable);
+
+                await db.SaveChangesAsync(cancellationToken);
+
+                return stepResult;
+            }
+        }
+
+        public Task<StepResult> GetStepResult(string id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<StepResult>> GetStepResults(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<StepResult>> GetStepResult(Func<StepResult, bool> expression, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }
