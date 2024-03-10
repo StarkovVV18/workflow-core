@@ -8,7 +8,7 @@ namespace WorkflowCore.Models
     {
         public abstract ExecutionResult Run(IStepExecutionContext context);
 
-        public string Name { get; set; }
+        public string Name { get; }
 
         public Task<ExecutionResult> RunAsync(IStepExecutionContext context)
         {
