@@ -57,5 +57,15 @@ namespace WorkflowCore.Persistence.Sqlite
         {
             builder.ToTable("ScheduledCommand");
         }
+
+        protected override void ConfigureDefinition(EntityTypeBuilder<PersistedDefinition> builder)
+        {
+            builder.ToTable("Definitions");
+        }
+
+        protected override void ConfigureTaskSchedule(EntityTypeBuilder<PersistedTaskSchedule> builder)
+        {
+            builder.ToTable("TaskSchedules");
+        }
     }
 }

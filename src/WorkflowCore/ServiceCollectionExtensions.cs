@@ -7,6 +7,7 @@ using Microsoft.Extensions.ObjectPool;
 using WorkflowCore.Primitives;
 using WorkflowCore.Services.BackgroundTasks;
 using WorkflowCore.Services.ErrorHandlers;
+using WorkflowCore.Interface.Persistence;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -28,6 +29,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IDistributedLockProvider>(options.LockFactory);
             services.AddSingleton<ILifeCycleEventHub>(options.EventHubFactory);
             services.AddSingleton<ISearchIndex>(options.SearchIndexFactory);
+
+            services.AddTransient<IDefinitionRepository>(options.PersistanceFactory);
+            services.AddTransient<ITaskScheduleRepository>(options.PersistanceFactory);
 
             services.AddSingleton<IWorkflowRegistry, WorkflowRegistry>();
             services.AddSingleton<WorkflowOptions>(options);
@@ -54,6 +58,9 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             services.AddTransient<IBackgroundTask>(sp => sp.GetService<ILifeCycleEventPublisher>());
+            
+            services.AddTransient<IBackgroundTask, RunnableTaskSchedule>();
+            services.AddTransient<IBackgroundTask, CompletionTaskSchedule>();
 
             services.AddTransient<IWorkflowErrorHandler, CompensateHandler>();
             services.AddTransient<IWorkflowErrorHandler, RetryHandler>();

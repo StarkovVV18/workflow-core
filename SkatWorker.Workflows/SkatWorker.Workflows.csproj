@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SkatWorker.Domain\SkatWorker.Domain.csproj" />
+    <ProjectReference Include="..\src\WorkflowCore.DSL\WorkflowCore.DSL.csproj" />
+    <ProjectReference Include="..\src\WorkflowCore\WorkflowCore.csproj" />
+  </ItemGroup>
+
+</Project>

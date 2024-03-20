@@ -11,102 +11,18 @@ namespace WorkflowCore.Persistence.EntityFramework
     {
         private static JsonSerializerSettings SerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
-        internal static PersistedWorkflow ToPersistable(this WorkflowInstance instance, PersistedWorkflow persistable = null)
+        #region Event
+
+        internal static Event ToEvent(this PersistedEvent instance)
         {
-            if (persistable == null)            
-                persistable = new PersistedWorkflow();                        
-
-            persistable.Data = JsonConvert.SerializeObject(instance.Data, SerializerSettings);
-            persistable.Description = instance.Description;
-            persistable.Reference = instance.Reference;
-            persistable.InstanceId = new Guid(instance.Id);
-            persistable.NextExecution = instance.NextExecution;
-            persistable.Version = instance.Version;
-            persistable.WorkflowDefinitionId = instance.WorkflowDefinitionId;
-            persistable.Status = instance.Status;
-            persistable.CreateTime = instance.CreateTime;
-            persistable.CompleteTime = instance.CompleteTime;            
-            
-            foreach (var ep in instance.ExecutionPointers)
-            {
-                var persistedEP = persistable.ExecutionPointers.FindById(ep.Id);
-                
-                if (persistedEP == null)
-                {
-                    persistedEP = new PersistedExecutionPointer();
-                    persistedEP.Id = ep.Id ?? Guid.NewGuid().ToString();
-                    persistable.ExecutionPointers.Add(persistedEP);
-                }                 
-                
-                persistedEP.StepId = ep.StepId;
-                persistedEP.Active = ep.Active;
-                persistedEP.SleepUntil = ep.SleepUntil;
-                persistedEP.PersistenceData = JsonConvert.SerializeObject(ep.PersistenceData, SerializerSettings);
-                persistedEP.StartTime = ep.StartTime;
-                persistedEP.EndTime = ep.EndTime;
-                persistedEP.StepName = ep.StepName;
-                persistedEP.RetryCount = ep.RetryCount;
-                persistedEP.PredecessorId = ep.PredecessorId;
-                persistedEP.ContextItem = JsonConvert.SerializeObject(ep.ContextItem, SerializerSettings);
-                persistedEP.Children = string.Empty;
-
-                foreach (var child in ep.Children)
-                    persistedEP.Children += child + ";";
-
-                persistedEP.EventName = ep.EventName;
-                persistedEP.EventKey = ep.EventKey;
-                persistedEP.EventPublished = ep.EventPublished;
-                persistedEP.EventData = JsonConvert.SerializeObject(ep.EventData, SerializerSettings);
-                persistedEP.Outcome = JsonConvert.SerializeObject(ep.Outcome, SerializerSettings);
-                persistedEP.Status = ep.Status;
-
-                persistedEP.Scope = string.Empty;
-                foreach (var item in ep.Scope)
-                    persistedEP.Scope += item + ";";
-
-                foreach (var attr in ep.ExtensionAttributes)
-                {
-                    var persistedAttr = persistedEP.ExtensionAttributes.FirstOrDefault(x => x.AttributeKey == attr.Key);
-                    if (persistedAttr == null)
-                    {
-                        persistedAttr = new PersistedExtensionAttribute();
-                        persistedEP.ExtensionAttributes.Add(persistedAttr);
-                    }
-
-                    persistedAttr.AttributeKey = attr.Key;
-                    persistedAttr.AttributeValue = JsonConvert.SerializeObject(attr.Value, SerializerSettings);
-                }
-            }
-
-            return persistable;
-        }
-
-        internal static PersistedExecutionError ToPersistable(this ExecutionError instance)
-        {
-            var result = new PersistedExecutionError();            
-            result.ErrorTime = instance.ErrorTime;
-            result.Message = instance.Message;
-            result.ExecutionPointerId = instance.ExecutionPointerId;
-            result.WorkflowId = instance.WorkflowId;
-
-            return result;
-        }
-
-        internal static PersistedSubscription ToPersistable(this EventSubscription instance)
-        {
-            PersistedSubscription result = new PersistedSubscription();            
-            result.SubscriptionId = new Guid(instance.Id);
+            Event result = new Event();
+            result.Id = instance.EventId.ToString();
             result.EventKey = instance.EventKey;
             result.EventName = instance.EventName;
-            result.StepId = instance.StepId;
-            result.ExecutionPointerId = instance.ExecutionPointerId;
-            result.WorkflowId = instance.WorkflowId;
-            result.SubscribeAsOf = DateTime.SpecifyKind(instance.SubscribeAsOf, DateTimeKind.Utc);
-            result.SubscriptionData = JsonConvert.SerializeObject(instance.SubscriptionData, SerializerSettings);
-            result.ExternalToken = instance.ExternalToken;
-            result.ExternalTokenExpiry = instance.ExternalTokenExpiry;
-            result.ExternalWorkerId = instance.ExternalWorkerId;
-            
+            result.EventTime = DateTime.SpecifyKind(instance.EventTime, DateTimeKind.Utc);
+            result.IsProcessed = instance.IsProcessed;
+            result.EventData = JsonConvert.DeserializeObject(instance.EventData, SerializerSettings);
+
             return result;
         }
 
@@ -123,15 +39,73 @@ namespace WorkflowCore.Persistence.EntityFramework
             return result;
         }
 
-        internal static PersistedScheduledCommand ToPersistable(this ScheduledCommand instance)
+        #endregion
+
+        #region Definition
+
+        internal static Definition ToDefinition(this PersistedDefinition instance)
         {
-            var result = new PersistedScheduledCommand();
-            result.CommandName = instance.CommandName;
-            result.Data = instance.Data;
-            result.ExecuteTime = instance.ExecuteTime;
+            Definition result = new Definition();
+
+            result.Id = instance.Id;
+            result.Version = instance.Version;
+            result.Value = instance.Value;
 
             return result;
         }
+
+        internal static PersistedDefinition ToPersistable(this Definition instance)
+        {
+            PersistedDefinition result = new PersistedDefinition();
+
+            result.Id = instance.Id;
+            result.Version = instance.Version;
+            result.Value = instance.Value;
+
+            return result;
+        }
+
+        #endregion
+
+        #region TaskSchedule
+
+        internal static TaskSchedule ToTaskSchedule(this PersistedTaskSchedule instance)
+        {
+            TaskSchedule result = new TaskSchedule();
+
+            result.Id = instance.Id;
+            result.WorkflowId = instance.WorkflowId;
+            result.StartTime = instance.StartTime;
+            result.CompleteTime = instance.CompleteTime;
+            result.Result = instance.Result;
+            result.IsProcessed = instance.IsProcessed;
+            result.Data = JsonConvert.DeserializeObject(instance.Data, SerializerSettings);
+            result.Version = instance.Version;
+            result.InstanceId = instance.InstanceId;
+
+            return result;
+        }
+
+        internal static PersistedTaskSchedule ToPersistable(this TaskSchedule instance)
+        {
+            PersistedTaskSchedule result = new PersistedTaskSchedule();
+
+            result.Id = instance.Id;
+            result.WorkflowId = instance.WorkflowId;
+            result.StartTime = instance.StartTime;
+            result.CompleteTime = instance.CompleteTime;
+            result.Result = instance.Result;
+            result.IsProcessed = instance.IsProcessed;
+            result.Data = JsonConvert.SerializeObject(instance.Data, SerializerSettings);
+            result.Version = instance.Version;
+            result.InstanceId = instance.InstanceId;
+
+            return result;
+        }
+
+        #endregion
+
+        #region Workflow
 
         internal static WorkflowInstance ToWorkflowInstance(this PersistedWorkflow instance)
         {
@@ -152,7 +126,7 @@ namespace WorkflowCore.Persistence.EntityFramework
 
             foreach (var ep in instance.ExecutionPointers)
             {
-                var pointer = new ExecutionPointer();                
+                var pointer = new ExecutionPointer();
 
                 pointer.Id = ep.Id;
                 pointer.StepId = ep.StepId;
@@ -199,6 +173,95 @@ namespace WorkflowCore.Persistence.EntityFramework
             return result;
         }
 
+        internal static PersistedWorkflow ToPersistable(this WorkflowInstance instance, PersistedWorkflow persistable = null)
+        {
+            if (persistable == null)
+                persistable = new PersistedWorkflow();
+
+            persistable.Data = JsonConvert.SerializeObject(instance.Data, SerializerSettings);
+            persistable.Description = instance.Description;
+            persistable.Reference = instance.Reference;
+            persistable.InstanceId = new Guid(instance.Id);
+            persistable.NextExecution = instance.NextExecution;
+            persistable.Version = instance.Version;
+            persistable.WorkflowDefinitionId = instance.WorkflowDefinitionId;
+            persistable.Status = instance.Status;
+            persistable.CreateTime = instance.CreateTime;
+            persistable.CompleteTime = instance.CompleteTime;
+
+            foreach (var ep in instance.ExecutionPointers)
+            {
+                var persistedEP = persistable.ExecutionPointers.FindById(ep.Id);
+
+                if (persistedEP == null)
+                {
+                    persistedEP = new PersistedExecutionPointer();
+                    persistedEP.Id = ep.Id ?? Guid.NewGuid().ToString();
+                    persistable.ExecutionPointers.Add(persistedEP);
+                }
+
+                persistedEP.StepId = ep.StepId;
+                persistedEP.Active = ep.Active;
+                persistedEP.SleepUntil = ep.SleepUntil;
+                persistedEP.PersistenceData = JsonConvert.SerializeObject(ep.PersistenceData, SerializerSettings);
+                persistedEP.StartTime = ep.StartTime;
+                persistedEP.EndTime = ep.EndTime;
+                persistedEP.StepName = ep.StepName;
+                persistedEP.RetryCount = ep.RetryCount;
+                persistedEP.PredecessorId = ep.PredecessorId;
+                persistedEP.ContextItem = JsonConvert.SerializeObject(ep.ContextItem, SerializerSettings);
+                persistedEP.Children = string.Empty;
+
+                foreach (var child in ep.Children)
+                    persistedEP.Children += child + ";";
+
+                persistedEP.EventName = ep.EventName;
+                persistedEP.EventKey = ep.EventKey;
+                persistedEP.EventPublished = ep.EventPublished;
+                persistedEP.EventData = JsonConvert.SerializeObject(ep.EventData, SerializerSettings);
+                persistedEP.Outcome = JsonConvert.SerializeObject(ep.Outcome, SerializerSettings);
+                persistedEP.Status = ep.Status;
+
+                persistedEP.Scope = string.Empty;
+                foreach (var item in ep.Scope)
+                    persistedEP.Scope += item + ";";
+
+                foreach (var attr in ep.ExtensionAttributes)
+                {
+                    var persistedAttr = persistedEP.ExtensionAttributes.FirstOrDefault(x => x.AttributeKey == attr.Key);
+                    if (persistedAttr == null)
+                    {
+                        persistedAttr = new PersistedExtensionAttribute();
+                        persistedEP.ExtensionAttributes.Add(persistedAttr);
+                    }
+
+                    persistedAttr.AttributeKey = attr.Key;
+                    persistedAttr.AttributeValue = JsonConvert.SerializeObject(attr.Value, SerializerSettings);
+                }
+            }
+
+            return persistable;
+        }
+
+        #endregion
+
+        #region ExecutionError
+
+        internal static PersistedExecutionError ToPersistable(this ExecutionError instance)
+        {
+            var result = new PersistedExecutionError();
+            result.ErrorTime = instance.ErrorTime;
+            result.Message = instance.Message;
+            result.ExecutionPointerId = instance.ExecutionPointerId;
+            result.WorkflowId = instance.WorkflowId;
+
+            return result;
+        }
+
+        #endregion
+
+        #region Subscription
+
         internal static EventSubscription ToEventSubscription(this PersistedSubscription instance)
         {
             EventSubscription result = new EventSubscription();
@@ -217,15 +280,34 @@ namespace WorkflowCore.Persistence.EntityFramework
             return result;
         }
 
-        internal static Event ToEvent(this PersistedEvent instance)
+        internal static PersistedSubscription ToPersistable(this EventSubscription instance)
         {
-            Event result = new Event();
-            result.Id = instance.EventId.ToString();
+            PersistedSubscription result = new PersistedSubscription();
+            result.SubscriptionId = new Guid(instance.Id);
             result.EventKey = instance.EventKey;
             result.EventName = instance.EventName;
-            result.EventTime = DateTime.SpecifyKind(instance.EventTime, DateTimeKind.Utc);
-            result.IsProcessed = instance.IsProcessed;
-            result.EventData = JsonConvert.DeserializeObject(instance.EventData, SerializerSettings);
+            result.StepId = instance.StepId;
+            result.ExecutionPointerId = instance.ExecutionPointerId;
+            result.WorkflowId = instance.WorkflowId;
+            result.SubscribeAsOf = DateTime.SpecifyKind(instance.SubscribeAsOf, DateTimeKind.Utc);
+            result.SubscriptionData = JsonConvert.SerializeObject(instance.SubscriptionData, SerializerSettings);
+            result.ExternalToken = instance.ExternalToken;
+            result.ExternalTokenExpiry = instance.ExternalTokenExpiry;
+            result.ExternalWorkerId = instance.ExternalWorkerId;
+
+            return result;
+        }
+
+        #endregion
+
+        #region ScheduledCommand
+
+        internal static PersistedScheduledCommand ToPersistable(this ScheduledCommand instance)
+        {
+            var result = new PersistedScheduledCommand();
+            result.CommandName = instance.CommandName;
+            result.Data = instance.Data;
+            result.ExecuteTime = instance.ExecuteTime;
 
             return result;
         }
@@ -239,5 +321,7 @@ namespace WorkflowCore.Persistence.EntityFramework
 
             return result;
         }
+
+        #endregion
     }
 }

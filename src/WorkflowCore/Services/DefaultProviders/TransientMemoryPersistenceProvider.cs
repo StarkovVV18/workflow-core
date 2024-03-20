@@ -78,5 +78,60 @@ namespace WorkflowCore.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<Definition> CreateDefinition(Definition definition, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Definition> GetDefinition(string id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TaskSchedule> CreateTaskSchedule(TaskSchedule taskSchedule, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TaskSchedule> GetTaskSchedule(string id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task MarkTaskScheduleProcessed(string id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task MarkTaskScheduleUnprocessed(string id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<TaskSchedule>> GetTaskSchedules(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<TaskSchedule>> GetTaskSchedules(Func<TaskSchedule, bool> expression, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task MarkTaskScheduleProcessed(string id, string instanceId, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task MarkTaskScheduleCompleted(string id, DateTime completeTime, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task MarkTaskScheduleUnCompleted(string id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -4,6 +4,7 @@ using WorkflowCore.Models;
 using WorkflowCore.Services;
 using FluentAssertions;
 using Xunit;
+using Microsoft.Extensions.Logging;
 
 namespace WorkflowCore.UnitTests.Services
 {
@@ -12,11 +13,12 @@ namespace WorkflowCore.UnitTests.Services
         protected IServiceProvider ServiceProvider { get; }
         protected WorkflowRegistry Subject { get; }
         protected WorkflowDefinition Definition { get; }
+        protected ILogger<WorkflowRegistry> _logger { get; }
 
         public WorkflowRegistryFixture()
         {
             ServiceProvider = A.Fake<IServiceProvider>();
-            Subject = new WorkflowRegistry(ServiceProvider);
+            Subject = new WorkflowRegistry(ServiceProvider, _logger);
 
             Definition = new WorkflowDefinition{
                 Id = "TestWorkflow",
