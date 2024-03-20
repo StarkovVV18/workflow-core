@@ -67,5 +67,10 @@ namespace WorkflowCore.Persistence.Sqlite
         {
             builder.ToTable("TaskSchedules");
         }
+
+        protected override void ConfigureStepResult(EntityTypeBuilder<PersistedStepResult> builder)
+        {
+            builder.ToTable("StepResult");
+        }
     }
 }
