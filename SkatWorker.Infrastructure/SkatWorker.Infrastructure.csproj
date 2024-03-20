@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentFTP" Version="49.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SkatWorker.Domain\SkatWorker.Application.csproj" />
     <ProjectReference Include="..\SkatWorker.Libraries\SkatWorker.Libraries.csproj" />
     <ProjectReference Include="..\src\WorkflowCore.DSL\WorkflowCore.DSL.csproj" />
