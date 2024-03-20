@@ -14,14 +14,13 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using WorkflowCore.Interface;
-
-using SkatWorker.Domain.Interfaces;
-using SkatWorker.Workflows.Services;
+using SkatWorker.Infrastructure.Services;
 using SkatWorker.Workflows.WorkflowDSLReader.Steps;
 using SkatWorker.Workflows.WorkflowDSLReader.Inputs;
 using SkatWorker.Workflows.WorkflowDSLReader;
 using SkatWorker.Workflows.Public.Steps.CopyFiles;
 using System.IO;
+using SkatWorker.Application.Interfaces.Services;
 
 namespace SkatWorkerAPI
 {

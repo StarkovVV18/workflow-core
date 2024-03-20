@@ -1,6 +1,6 @@
 ﻿using System.Dynamic;
 
-namespace SkatWorker.Domain.Interfaces
+namespace SkatWorker.Application.Interfaces.Services
 {
     /// <summary>
     /// Сервис для работы с Workflow.

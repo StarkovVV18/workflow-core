@@ -25,11 +25,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowCore.Testing", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowCore.DSL", "src\WorkflowCore.DSL\WorkflowCore.DSL.csproj", "{20B98905-08CB-4854-8E2C-A31A078383E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkatWorker.Workflows", "SkatWorker.Workflows\SkatWorker.Workflows.csproj", "{F7835E87-3F66-455D-BF58-BE92DD58C8C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkatWorker.Workflows", "SkatWorker.Workflows\SkatWorker.Workflows.csproj", "{F7835E87-3F66-455D-BF58-BE92DD58C8C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkatWorkerAPI", "SkatWorkerAPI\SkatWorkerAPI.csproj", "{ABDD56DF-40BF-4DC5-B7E3-50BDAD948C91}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkatWorker.Domain", "SkatWorker.Domain\SkatWorker.Domain.csproj", "{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkatWorker.Application", "SkatWorker.Domain\SkatWorker.Application.csproj", "{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkatWorker.Infrastructure", "SkatWorker.Infrastructure\SkatWorker.Infrastructure.csproj", "{7A7947C8-BF80-4A6D-98F0-47539A139202}"
+	ProjectSection(ProjectDependencies) = postProject
+		{20B98905-08CB-4854-8E2C-A31A078383E9} = {20B98905-08CB-4854-8E2C-A31A078383E9}
+		{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3} = {AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkatWorker.Libraries", "SkatWorker.Libraries\SkatWorker.Libraries.csproj", "{D9DE482B-BA6D-42E2-BDDC-28E96E3F4427}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +89,14 @@ Global
 		{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A7947C8-BF80-4A6D-98F0-47539A139202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A7947C8-BF80-4A6D-98F0-47539A139202}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A7947C8-BF80-4A6D-98F0-47539A139202}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A7947C8-BF80-4A6D-98F0-47539A139202}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9DE482B-BA6D-42E2-BDDC-28E96E3F4427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9DE482B-BA6D-42E2-BDDC-28E96E3F4427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9DE482B-BA6D-42E2-BDDC-28E96E3F4427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9DE482B-BA6D-42E2-BDDC-28E96E3F4427}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +114,8 @@ Global
 		{F7835E87-3F66-455D-BF58-BE92DD58C8C9} = {EF47161E-E399-451C-BDE8-E92AAD3BD761}
 		{ABDD56DF-40BF-4DC5-B7E3-50BDAD948C91} = {EF47161E-E399-451C-BDE8-E92AAD3BD761}
 		{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3} = {EF47161E-E399-451C-BDE8-E92AAD3BD761}
+		{7A7947C8-BF80-4A6D-98F0-47539A139202} = {EF47161E-E399-451C-BDE8-E92AAD3BD761}
+		{D9DE482B-BA6D-42E2-BDDC-28E96E3F4427} = {EF47161E-E399-451C-BDE8-E92AAD3BD761}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC0FA8D3-6449-4FDA-BB46-ECF58FAD23B4}
