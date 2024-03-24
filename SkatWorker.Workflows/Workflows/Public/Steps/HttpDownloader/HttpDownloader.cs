@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using SkatWorker.Application.Interfaces.Downloader;
 using SkatWorker.Infrastructure.Factory.ConnectionMethod.Http;
+using SkatWorker.Infrastructure.Services.DownloaderService;
 using SkatWorker.Libraries.HttpClient.Builder;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
@@ -11,10 +13,21 @@ namespace SkatWorker.Workflows.Public.Steps.HttpDownloader
     /// </summary>
     public class HttpDownloader : StepBody
     {
+        static string Name { get => "HttpDownloader"; }
+
         /// <summary>
         /// Логер.
         /// </summary>
         private readonly ILogger<HttpDownloader> _logger;
+
+        private readonly DownloaderService _downloaderService;
+
+        private readonly IPersistenceProvider _persistenceProvider;
+
+        /// <summary>
+        /// Токен.
+        /// </summary>
+        public string Token { get; set; }
 
         /// <summary>
         /// Логин.
@@ -46,23 +59,50 @@ namespace SkatWorker.Workflows.Public.Steps.HttpDownloader
         /// </summary>
         public Libraries.HttpClient.Enums.HttpMethod HttpMethod { get; set; }
 
-        public HttpDownloader(ILogger<HttpDownloader> logger)
+        /// <summary>
+        /// Способ аутентификации.
+        /// </summary>
+        public Libraries.HttpClient.Enums.AuthenticationScheme AuthenticationScheme { get; set; }
+
+        public HttpDownloader(ILogger<HttpDownloader> logger, DownloaderService downloaderService, IPersistenceProvider persistenceProvider)
         {
             _logger = logger;
+            _downloaderService = downloaderService;
+            _persistenceProvider = persistenceProvider;
         }
 
         public override ExecutionResult Run(IStepExecutionContext context)
         {
-            var httpConnection = new HttpConnectionMethodFactory().GetConnectionTechnique(HttpMethod);
+            var httpDownloader = new SkatWorker.Infrastructure.Services.DownloaderService.Downloader.HttpDownloader(HttpMethod, AuthenticationScheme);
+            var requestData = new RequestData();
 
-            httpConnection.Login = Login;
-            httpConnection.Password = Password;
-            httpConnection.Host = Host;
-            httpConnection.FileName = FileName;
+            requestData.Login = Login;
+            requestData.Password = Password;
+            requestData.Host = Host;
+            requestData.FileName = FileName;
+            requestData.Token = Token;
+            requestData.SavePath = SavedFile;
 
-            SavedFile = httpConnection.Download();
+            _downloaderService.SetDowloader(httpDownloader);
+            var downloadResult = _downloaderService.Download();
+
+            _persistenceProvider.CreateStepResult(this.CreateStepResult(context, downloadResult));
 
             return ExecutionResult.Next();
+        }
+
+        private StepResult CreateStepResult(IStepExecutionContext context, IDownloadResult downloadResult)
+        {
+            StepResult result = new StepResult();
+
+            // TODO: Добавить вх. параметры.
+            result.CompleteTime = DateTime.Now;
+            result.InstanceId = context.Workflow.Id;
+            result.WorkflowDefinitionId = context.Workflow.WorkflowDefinitionId;
+            result.Result = downloadResult.Result;
+            result.Name = Name;
+
+            return result;
         }
     }
 }

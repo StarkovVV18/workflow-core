@@ -1,7 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
+using SkatWorker.Application.Interfaces.Downloader;
 using SkatWorker.Infrastructure.Factory.ConnectionMethod.Ftp;
 using SkatWorker.Infrastructure.Factory.ConnectionMethod.Http;
+using SkatWorker.Infrastructure.Services.DownloaderService;
 using SkatWorker.Libraries.HttpClient.Builder;
+using SkatWorker.Libraries.HttpClient.Enums;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
@@ -12,10 +15,16 @@ namespace SkatWorker.Workflows.Public.Steps.FtpDownloader
     /// </summary>
     public class FtpDownloader : StepBody
     {
+        static string Name { get => "FtpDownloader"; }
+
         /// <summary>
         /// Логер.
         /// </summary>
         private readonly ILogger<FtpDownloader> _logger;
+
+        private readonly DownloaderService _downloaderService;
+
+        private readonly IPersistenceProvider _persistenceProvider;
 
         /// <summary>
         /// Логин.
@@ -42,28 +51,45 @@ namespace SkatWorker.Workflows.Public.Steps.FtpDownloader
         /// </summary>
         public string SavedFile { get; set; }
 
-        /// <summary>
-        /// Тип запроса.
-        /// </summary>
-        public Libraries.HttpClient.Enums.HttpMethod HttpMethod { get; set; }
 
-        public FtpDownloader(ILogger<FtpDownloader> logger)
+        public FtpDownloader(ILogger<FtpDownloader> logger, DownloaderService downloaderService, IPersistenceProvider persistenceProvider)
         {
             _logger = logger;
+            _downloaderService = downloaderService;
+            _persistenceProvider = persistenceProvider;
         }
 
         public override ExecutionResult Run(IStepExecutionContext context)
         {
-            var ftpConnection = new FtpConnectionMethodFactory().GetConnectionTechnique();
+            var ftpDownloader = new SkatWorker.Infrastructure.Services.DownloaderService.Downloader.FtpDownloader();
+            var requestData = new RequestData();
 
-            ftpConnection.Login = Login;
-            ftpConnection.Password = Password;
-            ftpConnection.Host = Host;
-            ftpConnection.FileName = FileName;
+            requestData.Login = Login;
+            requestData.Password = Password;
+            requestData.Host = Host;
+            requestData.FileName = FileName;
+            requestData.SavePath = SavedFile;
 
-            SavedFile = ftpConnection.Download();
+            _downloaderService.SetDowloader(ftpDownloader);
+            var downloadResult = _downloaderService.Download();
+
+            _persistenceProvider.CreateStepResult(this.CreateStepResult(context, downloadResult));
 
             return ExecutionResult.Next();
+        }
+
+        private StepResult CreateStepResult(IStepExecutionContext context, IDownloadResult downloadResult)
+        {
+            StepResult result = new StepResult();
+
+            // TODO: Добавить вх. параметры.
+            result.CompleteTime = DateTime.Now;
+            result.InstanceId = context.Workflow.Id;
+            result.WorkflowDefinitionId = context.Workflow.WorkflowDefinitionId;
+            result.Result = downloadResult.Result;
+            result.Name = Name;
+
+            return result;
         }
     }
 }

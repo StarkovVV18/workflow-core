@@ -21,6 +21,7 @@ using SkatWorker.Workflows.WorkflowDSLReader;
 using SkatWorker.Workflows.Public.Steps.CopyFiles;
 using System.IO;
 using SkatWorker.Application.Interfaces.Services;
+using SkatWorker.Infrastructure.Services.DownloaderService;
 
 namespace SkatWorkerAPI
 {
@@ -74,6 +75,7 @@ namespace SkatWorkerAPI
             // Внутренние сервисы.
             services.AddTransient<IDefinitionService, DefinitionService>();
             services.AddTransient<IWorkflowService, WorkflowService>();
+            services.AddTransient<DownloaderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
