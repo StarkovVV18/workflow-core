@@ -1,4 +1,4 @@
-﻿namespace SkatWorker.Workflows.Workflows.Public.Steps.SystemService
+﻿namespace SkatWorker.Workflows.Public.Steps.SystemService
 {
     /// <summary>
     /// Выполняемая команда со службой.

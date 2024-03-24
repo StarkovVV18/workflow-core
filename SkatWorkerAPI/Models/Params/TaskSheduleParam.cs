@@ -1,5 +1,6 @@
 ﻿using SkatWorker.Workflows.Public.Steps.CopyFiles.Parameters;
 using System;
+using System.Dynamic;
 
 namespace SkatWorkerAPI.Models.Params
 {
@@ -26,6 +27,6 @@ namespace SkatWorkerAPI.Models.Params
         /// <summary>
         /// Входные параметры рабочего процесса.
         /// </summary>
-        public CopyFileParam Data { get; set; }
+        public ExpandoObject Data { get; set; }
     }
 }
