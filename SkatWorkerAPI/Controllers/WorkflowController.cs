@@ -38,7 +38,7 @@ namespace SkatWorkerAPI.Controllers
         }
 
         [HttpPost("{id}")]
-        public async Task<ActionResult<WorkflowInstance>> Post(string id, [FromBody] CopyFileParam data)
+        public async Task<ActionResult<WorkflowInstance>> Post(string id, [FromBody] ExpandoObject data)
         {
             var instanceId = await _workflowController.StartWorkflow(id, data);
             var result = await _persistenceProvider.GetWorkflowInstance(instanceId);

@@ -22,6 +22,14 @@ using SkatWorker.Workflows.Public.Steps.CopyFiles;
 using System.IO;
 using SkatWorker.Application.Interfaces.Services;
 using SkatWorker.Infrastructure.Services.DownloaderService;
+using SkatWorker.Workflows.Public.Steps.HttpDownloader;
+using SkatWorker.Workflows.Public.Steps.FtpDownloader;
+using SkatWorker.Workflows.Workflows.CopyFiles;
+using SkatWorker.Workflows.Public.Steps.CopyFiles.Parameters;
+using SkatWorker.Workflows.Public.Steps.HttpDownloader.Inputs;
+using SkatWorker.Workflows.Public.Steps.FtpDownloader.Inputs;
+using SkatWorker.Workflows.Public.Steps.SystemService.Inputs;
+using SkatWorker.Workflows.Public.Steps.SystemService;
 
 namespace SkatWorkerAPI
 {
@@ -70,7 +78,10 @@ namespace SkatWorkerAPI
             services.AddTransient<LoadWorkflowWeb>();
 
             // Публичные шаги.
-            services.AddTransient<CopyFile>();
+            services.AddTransient<SkatWorker.Workflows.Public.Steps.CopyFiles.CopyFile>();
+            services.AddTransient<HttpDownloader>();
+            services.AddTransient<FtpDownloader>();
+            services.AddTransient<SystemService>();
 
             // Внутренние сервисы.
             services.AddTransient<IDefinitionService, DefinitionService>();
@@ -104,9 +115,13 @@ namespace SkatWorkerAPI
             // Запускает хост workflow.
             var wfHost = app.ApplicationServices.GetService<IWorkflowHost>();
 
-            // Регистрируем базовые рабочие процессы.
+            // Регистрируем базовые задачи.
             wfHost.RegisterWorkflow<WorkflowDSLReaderPath, FilesFromDirectory>();
             wfHost.RegisterWorkflow<WorkflowDSLReaderWeb, FilesFromDirectory>();
+            wfHost.RegisterWorkflow<SkatWorker.Workflows.Workflows.CopyFiles.CopyFile, CopyFileParam>();
+            wfHost.RegisterWorkflow<SkatWorker.Workflows.Workflows.HttpDownloader.HttpDownloader, HttpDownloaderParam>();
+            wfHost.RegisterWorkflow<SkatWorker.Workflows.Workflows.FtpDownloader.FtpDownloader, FtpDownloaderParam>();
+            wfHost.RegisterWorkflow<SkatWorker.Workflows.Workflows.SystemService.SystemService, SystemServiceParam>();
 
             wfHost.Start();
         }
