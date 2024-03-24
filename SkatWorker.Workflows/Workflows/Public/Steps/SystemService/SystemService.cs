@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using SkatWorker.Infrastructure.Factory.ConnectionMethod.Http;
 using SkatWorker.Libraries.HttpClient.Builder;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;

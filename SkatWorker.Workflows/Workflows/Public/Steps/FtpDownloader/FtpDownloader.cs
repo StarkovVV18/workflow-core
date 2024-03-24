@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using SkatWorker.Application.Interfaces.Downloader;
-using SkatWorker.Infrastructure.Factory.ConnectionMethod.Ftp;
-using SkatWorker.Infrastructure.Factory.ConnectionMethod.Http;
 using SkatWorker.Infrastructure.Services.DownloaderService;
 using SkatWorker.Libraries.HttpClient.Builder;
 using SkatWorker.Libraries.HttpClient.Enums;
