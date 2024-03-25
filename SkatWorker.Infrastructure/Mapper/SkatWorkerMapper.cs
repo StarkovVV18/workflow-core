@@ -24,6 +24,13 @@ namespace SkatWorker.Infrastructure.Mapper
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.Version))
                 .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
                 .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src.Data));
+
+            CreateMap<TaskSchedule, CreatedTaskSchedule>()
+                .ForMember(dest => dest.WorkflowId, opt => opt.MapFrom(src => src.WorkflowId))
+                .ForMember(dest => dest.InstanceId, opt => opt.MapFrom(src => src.InstanceId))
+                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.Version))
+                .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src.Data))
+                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime));
         }
     }
 }

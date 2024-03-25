@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SkatWorker.Infrastructure.Models.Params;
+using SkatWorker.Infrastructure.Models.ReturnModels;
 using System.Threading.Tasks;
 
 using WorkflowCore.Interface;
@@ -32,14 +33,14 @@ namespace SkatWorkerAPI.Controllers
         /// [ProducesResponseType(typeof(TaskSheduleParam), 204)]
         /// [ProducesResponseType(typeof(CopyFileParam), 204)]
         [HttpPost("create")]
-        public async Task CreateSchedule([FromBody] TaskSheduleParam param)
+        public async Task<ActionResult<CreatedTaskSchedule>> CreateSchedule([FromBody] TaskSheduleParam param)
         {
             var definition = _workflowRegistry.GetDefinition(param.WorkflowId);
             var dataTypeInstance = JsonConvert.DeserializeObject(param.Data, definition.DataType);
             var taskSchedule = _mapper.Map<TaskSchedule>(param);
             var result = await _persistenceProvider.CreateTaskSchedule(taskSchedule);
 
-            Response.StatusCode = 200;
+            return Ok(_mapper.Map<CreatedTaskSchedule>(result));
         }
     }
 }

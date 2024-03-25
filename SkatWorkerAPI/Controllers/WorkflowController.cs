@@ -49,6 +49,10 @@ namespace SkatWorkerAPI.Controllers
         public async Task<ActionResult<SkatWorker.Infrastructure.Models.ReturnModels.StartedWorkflowInstance>> Post([FromBody] WorkflowStartParam param)
         {
             var definition = _workflowRegistry.GetDefinition(param.WorkflowId);
+
+            if (definition == null)
+                return NotFound();
+
             var dataTypeInstance = JsonConvert.DeserializeObject(param.Data, definition.DataType);
             var workflowId = await _workflowController.StartWorkflow(param.WorkflowId, dataTypeInstance);
             var startedWorkflow = await _persistenceProvider.GetWorkflowInstance(workflowId);
