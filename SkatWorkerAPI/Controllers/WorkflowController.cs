@@ -9,7 +9,14 @@ using WorkflowCore.Models;
 
 using SkatWorker.Workflows.Public.Steps.CopyFiles.Parameters;
 using SkatWorkerAPI.Models;
-
+using System.Text.Json.Serialization;
+using System;
+using System.Linq;
+using Microsoft.AspNetCore.Http.Metadata;
+using Microsoft.EntityFrameworkCore.Query;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using SkatWorkerAPI.Models.Params;
 
 namespace SkatWorkerAPI.Controllers
 {
@@ -19,11 +26,13 @@ namespace SkatWorkerAPI.Controllers
     {
         private readonly IWorkflowController _workflowController;
         private readonly IPersistenceProvider _persistenceProvider;
+        private readonly IWorkflowRegistry _workflowRegistry;
 
-        public WorkflowController(IWorkflowController workflowController, IPersistenceProvider persistenceProvider)
+        public WorkflowController(IWorkflowController workflowController, IPersistenceProvider persistenceProvider, IWorkflowRegistry workflowRegistry)
         {
             _workflowController = workflowController;
             _persistenceProvider = persistenceProvider;
+            _workflowRegistry = workflowRegistry;
         }
 
         [HttpGet("{id}")]
@@ -37,21 +46,21 @@ namespace SkatWorkerAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPost("{id}")]
-        public async Task<ActionResult<WorkflowInstance>> Post(string id, [FromBody] ExpandoObject data)
+        [HttpPost("start")]
+        public async Task<ActionResult<string>> Post([FromBody] WorkflowStartParam param)
         {
-            var instanceId = await _workflowController.StartWorkflow(id, data);
-            var result = await _persistenceProvider.GetWorkflowInstance(instanceId);
+            var definition = _workflowRegistry.GetDefinition(param.WorkflowId);
+            var dataTypeInstance = JsonConvert.DeserializeObject(param.Data, definition.DataType);
+            var workflowId = await _workflowController.StartWorkflow(param.WorkflowId, dataTypeInstance);
+            var startedWorkflowId = await _persistenceProvider.GetWorkflowInstance(workflowId);
 
-            return Ok(result);
-
-            //return Created(instanceId, _mapper.Map<WorkflowInstance>(result));
+            return Ok();
         }
 
-        [HttpPut("{id}/suspend")]
-        public async Task Suspend(string id)
+        [HttpPut("suspend")]
+        public async Task Suspend([FromBody] WorkflowParam param)
         {
-            var result = await _workflowController.SuspendWorkflow(id);
+            var result = await _workflowController.SuspendWorkflow(param.WorkflowId);
 
             if (result)
                 Response.StatusCode = 200;
@@ -59,10 +68,10 @@ namespace SkatWorkerAPI.Controllers
                 Response.StatusCode = 400;
         }
 
-        [HttpPut("{id}/resume")]
-        public async Task Resume(string id)
+        [HttpPut("resume")]
+        public async Task Resume([FromBody] WorkflowParam param)
         {
-            var result = await _workflowController.ResumeWorkflow(id);
+            var result = await _workflowController.ResumeWorkflow(param.WorkflowId);
 
             if (result)
                 Response.StatusCode = 200;
@@ -70,10 +79,10 @@ namespace SkatWorkerAPI.Controllers
                 Response.StatusCode = 400;
         }
 
-        [HttpDelete("{id}")]
-        public async Task Terminate(string id)
+        [HttpDelete("terminate")]
+        public async Task Terminate([FromBody] WorkflowParam param)
         {
-            var result = await _workflowController.TerminateWorkflow(id);
+            var result = await _workflowController.TerminateWorkflow(param.WorkflowId);
 
             if (result)
                 Response.StatusCode = 200;

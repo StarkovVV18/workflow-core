@@ -7,7 +7,7 @@ namespace SkatWorkerAPI.Models.Params
     /// <summary>
     /// Класс передачи данных для добавления задачи в расписание.
     /// </summary>
-    public class TaskSheduleParam
+    public class WorkflowStartParam
     {
         /// <summary>
         /// Идентификатор рабочего процесса.
@@ -18,11 +18,6 @@ namespace SkatWorkerAPI.Models.Params
         /// Версия запускаемого рабочего процесса.
         /// </summary>
         public int Version { get; set; }
-
-        /// <summary>
-        /// Дата / время запуска.
-        /// </summary>
-        public DateTime StartTime { get; set; }
 
         /// <summary>
         /// Входные параметры рабочего процесса.
