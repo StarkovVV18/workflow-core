@@ -1,8 +1,4 @@
-﻿using SkatWorker.Workflows.Public.Steps.CopyFiles.Parameters;
-using System;
-using System.Dynamic;
-
-namespace SkatWorkerAPI.Models.Params
+﻿namespace SkatWorker.Infrastructure.Models.Params
 {
     /// <summary>
     /// Класс передачи данных для добавления задачи в расписание.

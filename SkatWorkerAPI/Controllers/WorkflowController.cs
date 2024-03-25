@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using System.Dynamic;
 using System.Threading.Tasks;
-
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
-
 using SkatWorker.Workflows.Public.Steps.CopyFiles.Parameters;
-using SkatWorkerAPI.Models;
 using System.Text.Json.Serialization;
 using System;
 using System.Linq;
@@ -16,7 +12,8 @@ using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.EntityFrameworkCore.Query;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SkatWorkerAPI.Models.Params;
+using AutoMapper;
+using SkatWorker.Infrastructure.Models.Params;
 
 namespace SkatWorkerAPI.Controllers
 {
@@ -27,12 +24,14 @@ namespace SkatWorkerAPI.Controllers
         private readonly IWorkflowController _workflowController;
         private readonly IPersistenceProvider _persistenceProvider;
         private readonly IWorkflowRegistry _workflowRegistry;
+        private readonly IMapper _mapper;
 
-        public WorkflowController(IWorkflowController workflowController, IPersistenceProvider persistenceProvider, IWorkflowRegistry workflowRegistry)
+        public WorkflowController(IWorkflowController workflowController, IPersistenceProvider persistenceProvider, IWorkflowRegistry workflowRegistry, IMapper mapper)
         {
             _workflowController = workflowController;
             _persistenceProvider = persistenceProvider;
             _workflowRegistry = workflowRegistry;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -47,14 +46,14 @@ namespace SkatWorkerAPI.Controllers
         }
 
         [HttpPost("start")]
-        public async Task<ActionResult<string>> Post([FromBody] WorkflowStartParam param)
+        public async Task<ActionResult<SkatWorker.Infrastructure.Models.ReturnModels.StartedWorkflowInstance>> Post([FromBody] WorkflowStartParam param)
         {
             var definition = _workflowRegistry.GetDefinition(param.WorkflowId);
             var dataTypeInstance = JsonConvert.DeserializeObject(param.Data, definition.DataType);
             var workflowId = await _workflowController.StartWorkflow(param.WorkflowId, dataTypeInstance);
-            var startedWorkflowId = await _persistenceProvider.GetWorkflowInstance(workflowId);
+            var startedWorkflow = await _persistenceProvider.GetWorkflowInstance(workflowId);
 
-            return Ok();
+            return Ok(_mapper.Map<SkatWorker.Infrastructure.Models.ReturnModels.StartedWorkflowInstance>(startedWorkflow));
         }
 
         [HttpPut("suspend")]
