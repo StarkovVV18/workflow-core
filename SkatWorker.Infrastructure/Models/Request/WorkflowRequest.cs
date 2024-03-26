@@ -1,9 +1,9 @@
-﻿namespace SkatWorker.Infrastructure.Models.Params
+﻿namespace SkatWorker.Infrastructure.Models.Request
 {
     /// <summary>
     /// Класс передачи данных для добавления задачи в расписание.
     /// </summary>
-    public class WorkflowParam
+    public class WorkflowRequest
     {
         /// <summary>
         /// Идентификатор рабочего процесса.

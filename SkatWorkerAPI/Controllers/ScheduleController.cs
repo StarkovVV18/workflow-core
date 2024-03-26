@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using SkatWorker.Infrastructure.Models.Params;
-using SkatWorker.Infrastructure.Models.ReturnModels;
+using SkatWorker.Infrastructure.Models.Request;
+using SkatWorker.Infrastructure.Models.Response;
 using System.Threading.Tasks;
 
 using WorkflowCore.Interface;
@@ -26,21 +26,24 @@ namespace SkatWorkerAPI.Controllers
         }
 
         /// <summary>
-        /// Добавить задачу в расписание.
+        /// Добавление задачи в расписание.
         /// </summary>
-        /// <param name="data">Входные параметры рабочего процесса.</param>
-        /// <returns>Идентификатор расписания.</returns>
-        /// [ProducesResponseType(typeof(TaskSheduleParam), 204)]
-        /// [ProducesResponseType(typeof(CopyFileParam), 204)]
+        /// <returns>Добавленную в расписание задачу.</returns>
+        [ProducesResponseType(typeof(TaskScheduleResponse), 200)]
+        [ProducesResponseType(typeof(NotFoundResponse), 404)]
         [HttpPost("create")]
-        public async Task<ActionResult<CreatedTaskSchedule>> CreateSchedule([FromBody] TaskSheduleParam param)
+        public async Task<ActionResult<TaskScheduleResponse>> CreateSchedule([FromBody] TaskSheduleRequest param)
         {
             var definition = _workflowRegistry.GetDefinition(param.WorkflowId);
+
+            if (definition == null)
+                return NotFound(new NotFoundResponse(string.Format("Не удалось найти задачу с идентификатором {0}",param.WorkflowId)));
+
             var dataTypeInstance = JsonConvert.DeserializeObject(param.Data, definition.DataType);
             var taskSchedule = _mapper.Map<TaskSchedule>(param);
             var result = await _persistenceProvider.CreateTaskSchedule(taskSchedule);
 
-            return Ok(_mapper.Map<CreatedTaskSchedule>(result));
+            return Ok(_mapper.Map<TaskScheduleResponse>(result));
         }
     }
 }

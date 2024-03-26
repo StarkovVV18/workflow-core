@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using SkatWorker.Infrastructure.Models.Params;
-using SkatWorker.Infrastructure.Models.ReturnModels;
+using SkatWorker.Infrastructure.Models.Request;
+using SkatWorker.Infrastructure.Models.Response;
 using WorkflowCore.Models;
 
 namespace SkatWorker.Infrastructure.Mapper
@@ -9,7 +9,7 @@ namespace SkatWorker.Infrastructure.Mapper
     {
         public SkatWorkerMapper()
         {
-            CreateMap<WorkflowCore.Models.WorkflowInstance, StartedWorkflowInstance>()
+            CreateMap<WorkflowCore.Models.WorkflowInstance, WorkflowInstanceResponse>()
                 .ForMember(dest => dest.DefinitionId, opt => opt.MapFrom(src => src.WorkflowDefinitionId))
                 .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.CompleteTime))
                 .ForMember(dest => dest.Reference, opt => opt.MapFrom(src => src.Reference))
@@ -19,13 +19,13 @@ namespace SkatWorker.Infrastructure.Mapper
                 .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src.Data))
                 .ForMember(dest => dest.WorkflowId, opt => opt.MapFrom(src => src.Id));
 
-            CreateMap<TaskSheduleParam, TaskSchedule>()
+            CreateMap<TaskSheduleRequest, TaskSchedule>()
                 .ForMember(dest => dest.WorkflowId, opt => opt.MapFrom(src => src.WorkflowId))
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.Version))
                 .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
                 .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src.Data));
 
-            CreateMap<TaskSchedule, CreatedTaskSchedule>()
+            CreateMap<TaskSchedule, TaskScheduleResponse>()
                 .ForMember(dest => dest.WorkflowId, opt => opt.MapFrom(src => src.WorkflowId))
                 .ForMember(dest => dest.InstanceId, opt => opt.MapFrom(src => src.InstanceId))
                 .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.Version))

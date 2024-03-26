@@ -24,15 +24,15 @@ namespace SkatWorkerAPI.Controllers
             _persistenceProvider = persistenceProvider;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<WorkflowDefinition>> Post([FromBody] IEnumerable<IDefinitionModel> datasets)
-        {
-            var result = _definitionService.RegisterNewDefinition(datasets);
+        //[HttpPost]
+        //public async Task<ActionResult<WorkflowDefinition>> Post([FromBody] IEnumerable<IDefinitionModel> datasets)
+        //{
+        //    var result = _definitionService.RegisterNewDefinition(datasets);
 
-            if (result != null)
-                return NoContent();
+        //    if (result != null)
+        //        return NoContent();
 
-            return BadRequest();
-        }
+        //    return BadRequest();
+        //}
     }
 }

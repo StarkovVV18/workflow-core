@@ -1,22 +1,27 @@
-﻿namespace SkatWorker.Infrastructure.Models.Params
+﻿namespace SkatWorker.Infrastructure.Models.Request
 {
     /// <summary>
     /// Класс передачи данных для добавления задачи в расписание.
     /// </summary>
-    public class WorkflowStartParam
+    public class TaskSheduleRequest
     {
         /// <summary>
-        /// Идентификатор рабочего процесса.
+        /// Идентификатор задачи.
         /// </summary>
         public string WorkflowId { get; set; }
         
         /// <summary>
-        /// Версия запускаемого рабочего процесса.
+        /// Версия задачи.
         /// </summary>
         public int Version { get; set; }
 
         /// <summary>
-        /// Входные параметры рабочего процесса.
+        /// Дата / время запуска.
+        /// </summary>
+        public DateTime StartTime { get; set; }
+
+        /// <summary>
+        /// Входные параметры задачи.
         /// </summary>
         public string Data { get; set; }
     }

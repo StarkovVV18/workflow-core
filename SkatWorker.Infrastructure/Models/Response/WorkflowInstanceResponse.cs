@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SkatWorker.Infrastructure.Models.ReturnModels
+namespace SkatWorker.Infrastructure.Models.Response
 {
-    public class StartedWorkflowInstance
+    public class WorkflowInstanceResponse
     {
         public string WorkflowId { get; set; }
         public object Data { get; set; }
