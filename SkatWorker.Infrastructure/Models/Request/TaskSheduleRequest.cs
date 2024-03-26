@@ -1,21 +1,17 @@
-﻿using SkatWorker.Workflows.Public.Steps.CopyFiles.Parameters;
-using System;
-using System.Dynamic;
-
-namespace SkatWorkerAPI.Models.Params
+﻿namespace SkatWorker.Infrastructure.Models.Request
 {
     /// <summary>
     /// Класс передачи данных для добавления задачи в расписание.
     /// </summary>
-    public class TaskSheduleParam
+    public class TaskSheduleRequest
     {
         /// <summary>
-        /// Идентификатор рабочего процесса.
+        /// Идентификатор задачи.
         /// </summary>
         public string WorkflowId { get; set; }
         
         /// <summary>
-        /// Версия запускаемого рабочего процесса.
+        /// Версия задачи.
         /// </summary>
         public int Version { get; set; }
 
@@ -25,8 +21,8 @@ namespace SkatWorkerAPI.Models.Params
         public DateTime StartTime { get; set; }
 
         /// <summary>
-        /// Входные параметры рабочего процесса.
+        /// Входные параметры задачи.
         /// </summary>
-        public ExpandoObject Data { get; set; }
+        public string Data { get; set; }
     }
 }

@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 
 using WorkflowCore.Interface;
 using SkatWorker.Infrastructure.Services;
@@ -19,7 +20,6 @@ using SkatWorker.Workflows.WorkflowDSLReader.Steps;
 using SkatWorker.Workflows.WorkflowDSLReader.Inputs;
 using SkatWorker.Workflows.WorkflowDSLReader;
 using SkatWorker.Workflows.Public.Steps.CopyFiles;
-using System.IO;
 using SkatWorker.Application.Interfaces.Services;
 using SkatWorker.Infrastructure.Services.DownloaderService;
 using SkatWorker.Workflows.Public.Steps.HttpDownloader;
@@ -30,6 +30,8 @@ using SkatWorker.Workflows.Public.Steps.HttpDownloader.Inputs;
 using SkatWorker.Workflows.Public.Steps.FtpDownloader.Inputs;
 using SkatWorker.Workflows.Public.Steps.SystemService.Inputs;
 using SkatWorker.Workflows.Public.Steps.SystemService;
+
+using AutoMapper;
 
 namespace SkatWorkerAPI
 {
@@ -46,7 +48,6 @@ namespace SkatWorkerAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddLogging();
-
             services.AddControllers();
 
             // Подключаем свагер.
@@ -66,6 +67,10 @@ namespace SkatWorkerAPI
             string applicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string skatWorkerFullPath = Path.Combine(applicationDataPath, "SkatWorker");
             string fullPathToDb = Path.Combine(skatWorkerFullPath, "wfdb.db");
+
+            // Подключени мапера
+            var mapperConfig = new MapperConfiguration(x => x.AddProfile<SkatWorker.Infrastructure.Mapper.SkatWorkerMapper>());
+            services.AddSingleton<IMapper>(x => new Mapper(mapperConfig));
 
             // Сервисы workflow.
             services.AddWorkflow(wf => wf.UseSqlite(string.Format("Data Source={0};", fullPathToDb), true));
