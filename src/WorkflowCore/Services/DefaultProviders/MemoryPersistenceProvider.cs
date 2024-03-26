@@ -357,7 +357,7 @@ namespace WorkflowCore.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<StepResult>> GetStepResult(Func<StepResult, bool> expression, CancellationToken cancellationToken = default)
+        public Task<IEnumerable<StepResult>> GetStepResults(Func<StepResult, bool> expression, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

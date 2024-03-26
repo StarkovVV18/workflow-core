@@ -72,9 +72,10 @@ namespace SkatWorker.Workflows.Public.Steps.CopyFiles
             // TODO: Добавить вх. параметры.
             result.CompleteTime = DateTime.Now;
             result.InstanceId = context.Workflow.Id;
-            result.WorkflowDefinitionId = context.Workflow.WorkflowDefinitionId;
+            result.WorkflowId = context.Workflow.WorkflowDefinitionId;
             result.Result = Result;
             result.Name = Name;
+            result.Version = context.Workflow.Version;
 
             return result;
         }

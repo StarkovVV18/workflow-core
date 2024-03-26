@@ -331,7 +331,6 @@ namespace WorkflowCore.Persistence.EntityFramework
             var result = new PersistedStepResult();
 
             result.Id = instance.Id;
-            result.WorkflowDefinitionId = instance.WorkflowDefinitionId;
             result.Name = instance.Name;
             result.WorkflowId = instance.WorkflowId;
             result.StartTime = instance.StartTime;
@@ -350,7 +349,6 @@ namespace WorkflowCore.Persistence.EntityFramework
             var result = new StepResult();
 
             result.Id = instance.Id;
-            result.WorkflowDefinitionId = instance.WorkflowDefinitionId;
             result.Name = instance.Name;
             result.WorkflowId = instance.WorkflowId;
             result.StartTime = instance.StartTime;

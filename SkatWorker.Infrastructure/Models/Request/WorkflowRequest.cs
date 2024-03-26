@@ -1,12 +1,12 @@
 ﻿namespace SkatWorker.Infrastructure.Models.Request
 {
     /// <summary>
-    /// Класс передачи данных для добавления задачи в расписание.
+    /// Класс запроса идентификатора задачи.
     /// </summary>
     public class WorkflowRequest
     {
         /// <summary>
-        /// Идентификатор рабочего процесса.
+        /// Идентификатор задачи.
         /// </summary>
         public string WorkflowId { get; set; }
     }

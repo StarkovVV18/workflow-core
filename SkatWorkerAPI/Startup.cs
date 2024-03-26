@@ -69,7 +69,10 @@ namespace SkatWorkerAPI
             string fullPathToDb = Path.Combine(skatWorkerFullPath, "wfdb.db");
 
             // Подключени мапера
-            var mapperConfig = new MapperConfiguration(x => x.AddProfile<SkatWorker.Infrastructure.Mapper.SkatWorkerMapper>());
+            var mapperConfig = new MapperConfiguration(x => {
+                    x.AllowNullCollections = true;
+                    x.AddProfile<SkatWorker.Infrastructure.Mapper.SkatWorkerMapper>();
+                });
             services.AddSingleton<IMapper>(x => new Mapper(mapperConfig));
 
             // Сервисы workflow.

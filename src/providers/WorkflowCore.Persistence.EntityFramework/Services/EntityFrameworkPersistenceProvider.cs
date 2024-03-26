@@ -678,7 +678,7 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
             return stepResults;
         }
 
-        public async Task<IEnumerable<StepResult>> GetStepResult(Func<StepResult, bool> expression, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<StepResult>> GetStepResults(Func<StepResult, bool> expression, CancellationToken cancellationToken = default)
         {
             var persistedStepResults = new List<PersistedStepResult>();
             var stepResults = new List<StepResult>();

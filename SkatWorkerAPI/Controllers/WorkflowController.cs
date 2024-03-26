@@ -78,7 +78,7 @@ namespace SkatWorkerAPI.Controllers
         /// <summary>
         /// Приостановить выполнение задачи.
         /// </summary>
-        /// <param name="param">Параметра запроса.</param>
+        /// <param name="param">Параметры запроса.</param>
         [HttpPut("suspend")]
         public async Task Suspend([FromBody] WorkflowRequest param)
         {
@@ -93,7 +93,7 @@ namespace SkatWorkerAPI.Controllers
         /// <summary>
         /// Возобновить выполнение задачи.
         /// </summary>
-        /// <param name="param">Параметра запроса.</param>
+        /// <param name="param">Параметры запроса.</param>
         [HttpPut("resume")]
         public async Task Resume([FromBody] WorkflowRequest param)
         {
@@ -108,7 +108,7 @@ namespace SkatWorkerAPI.Controllers
         /// <summary>
         /// Остановить выполнение задачи.
         /// </summary>
-        /// <param name="param">Параметра запроса.</param>
+        /// <param name="param">Параметры запроса.</param>
         [HttpDelete("terminate")]
         public async Task Terminate([FromBody] WorkflowRequest param)
         {

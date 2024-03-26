@@ -8,8 +8,6 @@ namespace WorkflowCore.Persistence.EntityFramework.Models
 
         public string Name { get; set; }
 
-        public string WorkflowDefinitionId { get; set; }
-
         public string WorkflowId { get; set; }
 
         public string InstanceId { get; set; }

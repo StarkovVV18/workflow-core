@@ -77,9 +77,10 @@ namespace SkatWorker.Workflows.Public.Steps.FtpDownloader
             // TODO: Добавить вх. параметры.
             result.CompleteTime = DateTime.Now;
             result.InstanceId = context.Workflow.Id;
-            result.WorkflowDefinitionId = context.Workflow.WorkflowDefinitionId;
+            result.WorkflowId = context.Workflow.WorkflowDefinitionId;
             result.Result = downloadResult.Result;
             result.Name = Name;
+            result.Version = context.Workflow.Version;
 
             return result;
         }

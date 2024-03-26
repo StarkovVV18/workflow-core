@@ -91,9 +91,10 @@ namespace SkatWorker.Workflows.Public.Steps.SystemService
             // TODO: Добавить вх. параметры.
             result.CompleteTime = DateTime.Now;
             result.InstanceId = context.Workflow.Id;
-            result.WorkflowDefinitionId = context.Workflow.WorkflowDefinitionId;
+            result.WorkflowId = context.Workflow.WorkflowDefinitionId;
             result.Result = SystemServiceResult.ToString();
             result.Name = Name;
+            result.Version = context.Workflow.Version;
 
             return result;
         }
@@ -105,9 +106,10 @@ namespace SkatWorker.Workflows.Public.Steps.SystemService
             // TODO: Добавить вх. параметры.
             stepResult.CompleteTime = DateTime.Now;
             stepResult.InstanceId = context.Workflow.Id;
-            stepResult.WorkflowDefinitionId = context.Workflow.WorkflowDefinitionId;
+            stepResult.WorkflowId = context.Workflow.WorkflowDefinitionId;
             stepResult.Result = result;
             stepResult.Name = Name;
+            stepResult.Version = context.Workflow.Version;
 
             return stepResult;
         }

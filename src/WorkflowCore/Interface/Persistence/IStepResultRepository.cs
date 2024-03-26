@@ -15,7 +15,7 @@ namespace WorkflowCore.Interface.Persistence
 
         Task<IEnumerable<StepResult>> GetStepResults(CancellationToken cancellationToken = default);
 
-        Task<IEnumerable<StepResult>> GetStepResult(Func<StepResult, bool> expression, CancellationToken cancellationToken = default);
+        Task<IEnumerable<StepResult>> GetStepResults(Func<StepResult, bool> expression, CancellationToken cancellationToken = default);
 
     }
 }
