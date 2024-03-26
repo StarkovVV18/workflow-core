@@ -75,6 +75,10 @@ namespace SkatWorkerAPI.Controllers
             return Ok(_mapper.Map<WorkflowInstanceResponse>(startedWorkflow));
         }
 
+        /// <summary>
+        /// Приостановить выполнение задачи.
+        /// </summary>
+        /// <param name="param">Параметра запроса.</param>
         [HttpPut("suspend")]
         public async Task Suspend([FromBody] WorkflowRequest param)
         {
@@ -86,6 +90,10 @@ namespace SkatWorkerAPI.Controllers
                 Response.StatusCode = 400;
         }
 
+        /// <summary>
+        /// Возобновить выполнение задачи.
+        /// </summary>
+        /// <param name="param">Параметра запроса.</param>
         [HttpPut("resume")]
         public async Task Resume([FromBody] WorkflowRequest param)
         {
@@ -97,6 +105,10 @@ namespace SkatWorkerAPI.Controllers
                 Response.StatusCode = 400;
         }
 
+        /// <summary>
+        /// Остановить выполнение задачи.
+        /// </summary>
+        /// <param name="param">Параметра запроса.</param>
         [HttpDelete("terminate")]
         public async Task Terminate([FromBody] WorkflowRequest param)
         {
