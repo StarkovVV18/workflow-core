@@ -38,14 +38,9 @@ namespace SkatWorker.Workflows.Public.Steps.FtpDownloader
         /// URL адрес.
         /// </summary>
         public string Host { get; set; }
-        
-        /// <summary>
-        /// Имя файла с расширением.
-        /// </summary>
-        public string FileName { get; set; }
 
         /// <summary>
-        /// Путь до скачанного файла.
+        /// Директория сохранения файла.
         /// </summary>
         public string SavedFile { get; set; }
 
@@ -65,7 +60,6 @@ namespace SkatWorker.Workflows.Public.Steps.FtpDownloader
             requestData.Login = Login;
             requestData.Password = Password;
             requestData.Host = Host;
-            requestData.FileName = FileName;
             requestData.SavePath = SavedFile;
 
             _downloaderService.SetDowloader(ftpDownloader);

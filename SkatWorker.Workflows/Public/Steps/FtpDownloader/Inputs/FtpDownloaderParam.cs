@@ -18,12 +18,7 @@
         public string Host { get; set; }
 
         /// <summary>
-        /// Имя файла с расширением.
-        /// </summary>
-        public string FileName { get; set; }
-
-        /// <summary>
-        /// Путь до скачанного файла.
+        /// Директория сохранения файла.
         /// </summary>
         public string SavedFile { get; set; }
     }

@@ -24,7 +24,6 @@ namespace SkatWorker.Workflows.Workflows.HttpDownloader
                 .Input(step => step.Password, data => data.Password)
                 .Input(step => step.Token, data => data.Token)
                 .Input(step => step.SavedFile, data => data.SavedFile)
-                .Input(step => step.FileName, data => data.FileName)
                 .Input(step => step.AuthenticationScheme, data => data.AuthenticationScheme);
 
         }
