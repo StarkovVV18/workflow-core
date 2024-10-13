@@ -12,16 +12,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 
 using WorkflowCore.Interface;
-
-using SkatWorker.Domain.Interfaces;
-using SkatWorker.Workflows.Services;
+using SkatWorker.Infrastructure.Services;
 using SkatWorker.Workflows.WorkflowDSLReader.Steps;
 using SkatWorker.Workflows.WorkflowDSLReader.Inputs;
 using SkatWorker.Workflows.WorkflowDSLReader;
 using SkatWorker.Workflows.Public.Steps.CopyFiles;
-using System.IO;
+using SkatWorker.Application.Interfaces.Services;
+using SkatWorker.Infrastructure.Services.DownloaderService;
+using SkatWorker.Workflows.Public.Steps.HttpDownloader;
+using SkatWorker.Workflows.Public.Steps.FtpDownloader;
+using SkatWorker.Workflows.Workflows.CopyFiles;
+using SkatWorker.Workflows.Public.Steps.CopyFiles.Parameters;
+using SkatWorker.Workflows.Public.Steps.HttpDownloader.Inputs;
+using SkatWorker.Workflows.Public.Steps.FtpDownloader.Inputs;
+using SkatWorker.Workflows.Public.Steps.SystemService.Inputs;
+using SkatWorker.Workflows.Public.Steps.SystemService;
+
+using AutoMapper;
 
 namespace SkatWorkerAPI
 {
@@ -38,7 +48,6 @@ namespace SkatWorkerAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddLogging();
-
             services.AddControllers();
 
             // Подключаем свагер.
@@ -59,6 +68,14 @@ namespace SkatWorkerAPI
             string skatWorkerFullPath = Path.Combine(applicationDataPath, "SkatWorker");
             string fullPathToDb = Path.Combine(skatWorkerFullPath, "wfdb.db");
 
+            // Подключени мапера
+            var mapperConfig = new MapperConfiguration(x => {
+                    x.AllowNullCollections = true;
+                    x.AddProfile<SkatWorker.Infrastructure.Mapper.SkatWorkerMapper>();
+                });
+
+            services.AddSingleton<IMapper>(x => new Mapper(mapperConfig));
+
             // Сервисы workflow.
             services.AddWorkflow(wf => wf.UseSqlite(string.Format("Data Source={0};", fullPathToDb), true));
             services.AddWorkflowDSL();
@@ -70,11 +87,15 @@ namespace SkatWorkerAPI
             services.AddTransient<LoadWorkflowWeb>();
 
             // Публичные шаги.
-            services.AddTransient<CopyFile>();
+            services.AddTransient<SkatWorker.Workflows.Public.Steps.CopyFiles.CopyFile>();
+            services.AddTransient<HttpDownloader>();
+            services.AddTransient<FtpDownloader>();
+            services.AddTransient<SystemService>();
 
             // Внутренние сервисы.
             services.AddTransient<IDefinitionService, DefinitionService>();
             services.AddTransient<IWorkflowService, WorkflowService>();
+            services.AddTransient<DownloaderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,9 +124,13 @@ namespace SkatWorkerAPI
             // Запускает хост workflow.
             var wfHost = app.ApplicationServices.GetService<IWorkflowHost>();
 
-            // Регистрируем базовые рабочие процессы.
+            // Регистрируем базовые задачи.
             wfHost.RegisterWorkflow<WorkflowDSLReaderPath, FilesFromDirectory>();
             wfHost.RegisterWorkflow<WorkflowDSLReaderWeb, FilesFromDirectory>();
+            wfHost.RegisterWorkflow<SkatWorker.Workflows.Workflows.CopyFiles.CopyFile, CopyFileParam>();
+            wfHost.RegisterWorkflow<SkatWorker.Workflows.Workflows.HttpDownloader.HttpDownloader, HttpDownloaderParam>();
+            wfHost.RegisterWorkflow<SkatWorker.Workflows.Workflows.FtpDownloader.FtpDownloader, FtpDownloaderParam>();
+            wfHost.RegisterWorkflow<SkatWorker.Workflows.Workflows.SystemService.SystemService, SystemServiceParam>();
 
             wfHost.Start();
         }

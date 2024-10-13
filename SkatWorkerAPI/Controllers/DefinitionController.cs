@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using SkatWorker.Domain.Interfaces;
-using SkatWorker.Domain.Models;
 using WorkflowCore.Interface;
 using System.Threading.Tasks;
 using WorkflowCore.Models;
+using SkatWorker.Application.Interfaces.Services;
+using SkatWorker.Application.Interfaces.Models;
 
 namespace SkatWorkerAPI.Controllers
 {
@@ -24,15 +24,15 @@ namespace SkatWorkerAPI.Controllers
             _persistenceProvider = persistenceProvider;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<WorkflowDefinition>> Post([FromBody] IEnumerable<PostDefinitionModel> datasets)
-        {
-            var result = _definitionService.RegisterNewDefinition(datasets);
+        //[HttpPost]
+        //public async Task<ActionResult<WorkflowDefinition>> Post([FromBody] IEnumerable<IDefinitionModel> datasets)
+        //{
+        //    var result = _definitionService.RegisterNewDefinition(datasets);
 
-            if (result != null)
-                return NoContent();
+        //    if (result != null)
+        //        return NoContent();
 
-            return BadRequest();
-        }
+        //    return BadRequest();
+        //}
     }
 }

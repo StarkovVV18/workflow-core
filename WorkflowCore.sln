@@ -25,11 +25,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowCore.Testing", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowCore.DSL", "src\WorkflowCore.DSL\WorkflowCore.DSL.csproj", "{20B98905-08CB-4854-8E2C-A31A078383E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkatWorker.Workflows", "SkatWorker.Workflows\SkatWorker.Workflows.csproj", "{F7835E87-3F66-455D-BF58-BE92DD58C8C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkatWorker.Workflows", "SkatWorker.Workflows\SkatWorker.Workflows.csproj", "{F7835E87-3F66-455D-BF58-BE92DD58C8C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkatWorkerAPI", "SkatWorkerAPI\SkatWorkerAPI.csproj", "{ABDD56DF-40BF-4DC5-B7E3-50BDAD948C91}"
+	ProjectSection(ProjectDependencies) = postProject
+		{20B98905-08CB-4854-8E2C-A31A078383E9} = {20B98905-08CB-4854-8E2C-A31A078383E9}
+		{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3} = {AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkatWorker.Domain", "SkatWorker.Domain\SkatWorker.Domain.csproj", "{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkatWorker.Infrastructure", "SkatWorker.Infrastructure\SkatWorker.Infrastructure.csproj", "{279A452C-DA98-476E-9AE0-22B2A35A9E5B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkatWorker.Libraries", "SkatWorker.Libraries\SkatWorker.Libraries.csproj", "{31512582-8EA7-4BE0-B5A3-97635546BDBC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkatWorker.Application", "SkatWorker.Domain\SkatWorker.Application.csproj", "{BD9DB85F-ED39-41CC-8BB3-2C96AD0B4F1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +91,18 @@ Global
 		{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{279A452C-DA98-476E-9AE0-22B2A35A9E5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{279A452C-DA98-476E-9AE0-22B2A35A9E5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{279A452C-DA98-476E-9AE0-22B2A35A9E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{279A452C-DA98-476E-9AE0-22B2A35A9E5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31512582-8EA7-4BE0-B5A3-97635546BDBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31512582-8EA7-4BE0-B5A3-97635546BDBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31512582-8EA7-4BE0-B5A3-97635546BDBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31512582-8EA7-4BE0-B5A3-97635546BDBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD9DB85F-ED39-41CC-8BB3-2C96AD0B4F1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD9DB85F-ED39-41CC-8BB3-2C96AD0B4F1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD9DB85F-ED39-41CC-8BB3-2C96AD0B4F1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD9DB85F-ED39-41CC-8BB3-2C96AD0B4F1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +120,9 @@ Global
 		{F7835E87-3F66-455D-BF58-BE92DD58C8C9} = {EF47161E-E399-451C-BDE8-E92AAD3BD761}
 		{ABDD56DF-40BF-4DC5-B7E3-50BDAD948C91} = {EF47161E-E399-451C-BDE8-E92AAD3BD761}
 		{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3} = {EF47161E-E399-451C-BDE8-E92AAD3BD761}
+		{279A452C-DA98-476E-9AE0-22B2A35A9E5B} = {EF47161E-E399-451C-BDE8-E92AAD3BD761}
+		{31512582-8EA7-4BE0-B5A3-97635546BDBC} = {EF47161E-E399-451C-BDE8-E92AAD3BD761}
+		{BD9DB85F-ED39-41CC-8BB3-2C96AD0B4F1A} = {EF47161E-E399-451C-BDE8-E92AAD3BD761}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC0FA8D3-6449-4FDA-BB46-ECF58FAD23B4}

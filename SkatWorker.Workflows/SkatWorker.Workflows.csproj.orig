@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+<<<<<<< HEAD
+    <ProjectReference Include="..\SkatWorker.Domain\SkatWorker.Domain.csproj" />
+=======
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SkatWorker.Domain\SkatWorker.Application.csproj" />
+    <ProjectReference Include="..\SkatWorker.Infrastructure\SkatWorker.Infrastructure.csproj" />
+>>>>>>> 4d6c835 (Удалены лишние директории)
+    <ProjectReference Include="..\src\WorkflowCore.DSL\WorkflowCore.DSL.csproj" />
+    <ProjectReference Include="..\src\WorkflowCore\WorkflowCore.csproj" />
+  </ItemGroup>
+
+</Project>

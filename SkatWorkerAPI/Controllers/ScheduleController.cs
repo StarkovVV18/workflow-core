@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using SkatWorker.Infrastructure.Models.Request;
+using SkatWorker.Infrastructure.Models.Response;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
-using SkatWorkerAPI.Models.Params;
 
 namespace SkatWorkerAPI.Controllers
 {
@@ -12,26 +16,53 @@ namespace SkatWorkerAPI.Controllers
     public class ScheduleController : ControllerBase
     {
         private readonly IPersistenceProvider _persistenceProvider;
+        private readonly IWorkflowRegistry _workflowRegistry;
+        private readonly IMapper _mapper;
 
-        public ScheduleController(IPersistenceProvider persistenceProvider)
+        public ScheduleController(IPersistenceProvider persistenceProvider, IWorkflowRegistry workflowRegistry, IMapper mapper)
         {
             _persistenceProvider = persistenceProvider;
+            _workflowRegistry = workflowRegistry;
+            _mapper = mapper;
         }
 
         /// <summary>
-        /// Добавить задачу в расписание.
+        /// Получить расписание.
         /// </summary>
-        /// <param name="data">Входные параметры рабочего процесса.</param>
-        /// <returns>Идентификатор расписания.</returns>
-        /// [ProducesResponseType(typeof(TaskSheduleParam), 204)]
-        /// [ProducesResponseType(typeof(CopyFileParam), 204)]
-        [HttpPost("create")]
-        public async Task CreateSchedule([FromBody] TaskSheduleParam data)
+        /// <returns>Список задач добавленных в расписание.</returns>
+        //[ProducesResponseType(typeof(TaskScheduleResponse), 200)]
+        //[ProducesResponseType(typeof(NotFoundResponse), 404)]
+        [HttpGet("list")]
+        public async Task<ActionResult<IEnumerable<TaskScheduleResponse>>> GetSchedule()
         {
-            var taskSchedule = new TaskSchedule { WorkflowId = data.WorkflowId, Version = data.Version, StartTime = data.StartTime, Data = data.Data };
+            var schedules = await _persistenceProvider.GetTaskSchedules();
+
+            if (schedules == null)
+                return NotFound(new NotFoundResponse("Отсутствуют задачи в расписании."));
+
+
+            return Ok(_mapper.Map<List<TaskScheduleResponse>>(schedules));
+        }
+
+        /// <summary>
+        /// Добавление задачи в расписание.
+        /// </summary>
+        /// <returns>Добавленную в расписание задачу.</returns>
+        [ProducesResponseType(typeof(TaskScheduleResponse), 200)]
+        [ProducesResponseType(typeof(NotFoundResponse), 404)]
+        [HttpPost("create")]
+        public async Task<ActionResult<TaskScheduleResponse>> CreateSchedule([FromBody] TaskSheduleRequest param)
+        {
+            var definition = _workflowRegistry.GetDefinition(param.WorkflowId);
+
+            if (definition == null)
+                return NotFound(new NotFoundResponse(string.Format("Не удалось найти задачу с идентификатором {0}",param.WorkflowId)));
+
+            var dataTypeInstance = JsonConvert.DeserializeObject(param.Data, definition.DataType);
+            var taskSchedule = _mapper.Map<TaskSchedule>(param);
             var result = await _persistenceProvider.CreateTaskSchedule(taskSchedule);
 
-            Response.StatusCode = 200;
+            return Ok(_mapper.Map<TaskScheduleResponse>(result));
         }
     }
 }
