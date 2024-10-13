@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SkatWorker.Infrastructure.Models.Request;
 using SkatWorker.Infrastructure.Models.Response;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using WorkflowCore.Interface;
@@ -23,6 +24,24 @@ namespace SkatWorkerAPI.Controllers
             _persistenceProvider = persistenceProvider;
             _workflowRegistry = workflowRegistry;
             _mapper = mapper;
+        }
+
+        /// <summary>
+        /// Получить расписание.
+        /// </summary>
+        /// <returns>Список задач добавленных в расписание.</returns>
+        //[ProducesResponseType(typeof(TaskScheduleResponse), 200)]
+        //[ProducesResponseType(typeof(NotFoundResponse), 404)]
+        [HttpGet("list")]
+        public async Task<ActionResult<IEnumerable<TaskScheduleResponse>>> GetSchedule()
+        {
+            var schedules = await _persistenceProvider.GetTaskSchedules();
+
+            if (schedules == null)
+                return NotFound(new NotFoundResponse("Отсутствуют задачи в расписании."));
+
+
+            return Ok(_mapper.Map<List<TaskScheduleResponse>>(schedules));
         }
 
         /// <summary>

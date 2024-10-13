@@ -73,6 +73,7 @@ namespace SkatWorkerAPI
                     x.AllowNullCollections = true;
                     x.AddProfile<SkatWorker.Infrastructure.Mapper.SkatWorkerMapper>();
                 });
+
             services.AddSingleton<IMapper>(x => new Mapper(mapperConfig));
 
             // Сервисы workflow.
