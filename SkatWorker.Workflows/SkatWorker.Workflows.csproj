@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SkatWorker.Domain\SkatWorker.Domain.csproj" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SkatWorker.Domain\SkatWorker.Application.csproj" />
+    <ProjectReference Include="..\SkatWorker.Infrastructure\SkatWorker.Infrastructure.csproj" />
     <ProjectReference Include="..\src\WorkflowCore.DSL\WorkflowCore.DSL.csproj" />
     <ProjectReference Include="..\src\WorkflowCore\WorkflowCore.csproj" />
   </ItemGroup>

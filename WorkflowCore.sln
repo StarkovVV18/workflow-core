@@ -28,6 +28,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkatWorker.Workflows", "SkatWorker.Workflows\SkatWorker.Workflows.csproj", "{F7835E87-3F66-455D-BF58-BE92DD58C8C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkatWorkerAPI", "SkatWorkerAPI\SkatWorkerAPI.csproj", "{ABDD56DF-40BF-4DC5-B7E3-50BDAD948C91}"
+	ProjectSection(ProjectDependencies) = postProject
+		{20B98905-08CB-4854-8E2C-A31A078383E9} = {20B98905-08CB-4854-8E2C-A31A078383E9}
+		{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3} = {AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkatWorker.Domain", "SkatWorker.Domain\SkatWorker.Domain.csproj", "{AE4ADADC-F1F3-4BBC-9DF8-48DFA03A5CC3}"
 EndProject

@@ -1,4 +1,4 @@
-﻿using SkatWorker.Domain.Models;
+﻿using SkatWorker.Application.Interfaces.Models;
 
 namespace SkatWorker.Workflows.WorkflowDSLReader.Inputs
 {
@@ -20,6 +20,6 @@ namespace SkatWorker.Workflows.WorkflowDSLReader.Inputs
         /// <summary>
         /// Список определений.
         /// </summary>
-        public IEnumerable<PostDefinitionModel> Definitions { get; set;}
+        public IEnumerable<IDefinitionModel> Definitions { get; set;}
     }
 }

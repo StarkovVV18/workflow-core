@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using SkatWorker.Domain.Interfaces;
-using SkatWorker.Domain.Models;
+using SkatWorker.Application.Interfaces;
+using SkatWorker.Application.Interfaces.Models;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
@@ -29,7 +29,7 @@ namespace SkatWorker.Workflows.WorkflowDSLReader.Steps
         /// <summary>
         /// Список определений.
         /// </summary>
-        public IEnumerable<PostDefinitionModel> Definitions { get; set; }
+        public IEnumerable<IDefinitionModel> Definitions { get; set; }
 
         /// <summary>
         /// Конструктор.
