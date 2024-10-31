@@ -32,6 +32,7 @@ using SkatWorker.Workflows.Public.Steps.SystemService.Inputs;
 using SkatWorker.Workflows.Public.Steps.SystemService;
 
 using AutoMapper;
+using Serilog;
 
 namespace SkatWorkerAPI
 {
@@ -47,7 +48,11 @@ namespace SkatWorkerAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddLogging();
+            services.AddSerilog(x =>
+            {
+                x.WriteTo.File(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LogFiles", $"{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day} Log.txt"));
+            });
+
             services.AddControllers();
 
             // Подключаем свагер.
