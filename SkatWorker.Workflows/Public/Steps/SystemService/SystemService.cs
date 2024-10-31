@@ -5,6 +5,7 @@ using WorkflowCore.Models;
 using System.ServiceProcess;
 using SkatWorker.Infrastructure.Services.DownloaderService;
 using SkatWorker.Application.Interfaces.Downloader;
+using System.Diagnostics;
 
 namespace SkatWorker.Workflows.Public.Steps.SystemService
 {
@@ -65,18 +66,34 @@ namespace SkatWorker.Workflows.Public.Steps.SystemService
             {
                 findedService.Start();
                 SystemServiceResult = ServiceControllerStatus.StartPending;
+
+                _logger.LogInformation(string.Format("Start service {0}", ServiceName));
             }
 
-            if (SystemServiceCommand == SystemServiceCommand.Start)
+            if (SystemServiceCommand == SystemServiceCommand.Stop)
             {
+                var statusService = findedService.Status;
+
+                if (statusService == ServiceControllerStatus.Stopped)
+                {
+                    string message = $"Service {ServiceName} yet stop.";
+                    _persistenceProvider.CreateStepResult(this.CreateStepResult(context, message));
+
+                    return ExecutionResult.Outcome(message);
+                }
+
                 findedService.Stop();
                 SystemServiceResult = ServiceControllerStatus.StopPending;
+
+                _logger.LogInformation(string.Format("Stop service {0}", ServiceName));
             }
 
             if (SystemServiceCommand == SystemServiceCommand.Status)
             {
                 var statusService = findedService.Status;
                 SystemServiceResult = statusService;
+
+                _logger.LogInformation(string.Format("Get status of service {0}", ServiceName));
             }
 
             _persistenceProvider.CreateStepResult(this.CreateStepResult(context));
