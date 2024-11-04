@@ -33,6 +33,7 @@ using SkatWorker.Workflows.Public.Steps.SystemService;
 
 using AutoMapper;
 using Serilog;
+using SkatWorkerAPI.Models.AppSettings;
 
 namespace SkatWorkerAPI
 {
@@ -40,17 +41,29 @@ namespace SkatWorkerAPI
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
+
+            //new ConfigurationBuilder()
+            //    .AddJsonFile("appsettings.json", false, true)
+            //    .AddEnvironmentVariables()
+            //    .Build(
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration _configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var settings = _configuration.GetSection("Settings").Get<Settings>();
+
+            string pathToLog = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+
+            if (settings != null && !string.IsNullOrEmpty(settings.PathToLog))
+                pathToLog = settings.PathToLog;
+
             services.AddSerilog(x =>
             {
-                x.WriteTo.File(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LogFiles", $"{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day} Log.txt"));
+                x.WriteTo.File(Path.Combine(pathToLog, $"{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day}.txt"));
             });
 
             services.AddControllers();
@@ -68,11 +81,6 @@ namespace SkatWorkerAPI
                 swagger.IncludeXmlComments(filePath);
             });
 
-            // Получение пути C:\Users\<User>\AppData\Roaming\
-            string applicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string skatWorkerFullPath = Path.Combine(applicationDataPath, "SkatWorker");
-            string fullPathToDb = Path.Combine(skatWorkerFullPath, "wfdb.db");
-
             // Подключени мапера
             var mapperConfig = new MapperConfiguration(x => {
                     x.AllowNullCollections = true;
@@ -81,8 +89,19 @@ namespace SkatWorkerAPI
 
             services.AddSingleton<IMapper>(x => new Mapper(mapperConfig));
 
+            // Получение пути C:\Users\<User>\AppData\Roaming\
+            //string applicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            //string skatWorkerFullPath = Path.Combine(applicationDataPath, "SkatWorker");
+            //string fullPathToDb = Path.Combine(skatWorkerFullPath, "wfdb.db");
+            //string connectionString = string.Format("Data Source={0};", fullPathToDb);
+
+            string connectionString = $"Data Source = " + Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database", "wfdb.db");
+            
+            if (settings != null && !string.IsNullOrEmpty(settings.ConnectionString))
+                connectionString = settings.ConnectionString;
+
             // Сервисы workflow.
-            services.AddWorkflow(wf => wf.UseSqlite(string.Format("Data Source={0};", fullPathToDb), true));
+            services.AddWorkflow(wf => wf.UseSqlite(connectionString, true));
             services.AddWorkflowDSL();
 
             // Шаги для базовых рабочих процессов.
