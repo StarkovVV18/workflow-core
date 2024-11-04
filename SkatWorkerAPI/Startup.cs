@@ -42,11 +42,6 @@ namespace SkatWorkerAPI
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
-
-            //new ConfigurationBuilder()
-            //    .AddJsonFile("appsettings.json", false, true)
-            //    .AddEnvironmentVariables()
-            //    .Build(
         }
 
         public IConfiguration _configuration { get; }
@@ -56,7 +51,11 @@ namespace SkatWorkerAPI
         {
             var settings = _configuration.GetSection("Settings").Get<Settings>();
 
+            string connectionString = $"Data Source = " + Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database", "wfdb.db");
             string pathToLog = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+
+            if (settings != null && !string.IsNullOrEmpty(settings.ConnectionString))
+                connectionString = settings.ConnectionString;
 
             if (settings != null && !string.IsNullOrEmpty(settings.PathToLog))
                 pathToLog = settings.PathToLog;
@@ -87,18 +86,7 @@ namespace SkatWorkerAPI
                     x.AddProfile<SkatWorker.Infrastructure.Mapper.SkatWorkerMapper>();
                 });
 
-            services.AddSingleton<IMapper>(x => new Mapper(mapperConfig));
-
-            // Получение пути C:\Users\<User>\AppData\Roaming\
-            //string applicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            //string skatWorkerFullPath = Path.Combine(applicationDataPath, "SkatWorker");
-            //string fullPathToDb = Path.Combine(skatWorkerFullPath, "wfdb.db");
-            //string connectionString = string.Format("Data Source={0};", fullPathToDb);
-
-            string connectionString = $"Data Source = " + Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database", "wfdb.db");
-            
-            if (settings != null && !string.IsNullOrEmpty(settings.ConnectionString))
-                connectionString = settings.ConnectionString;
+            services.AddSingleton<IMapper>(x => new Mapper(mapperConfig))
 
             // Сервисы workflow.
             services.AddWorkflow(wf => wf.UseSqlite(connectionString, true));

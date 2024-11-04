@@ -20,27 +20,12 @@ namespace SkatWorkerAPI
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            //string applicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            //string skatWorkerFullPath = Path.Combine(applicationDataPath, "SkatWorker");
-
-            //if (!Directory.Exists(skatWorkerFullPath))
-            //    Directory.CreateDirectory(skatWorkerFullPath);
-
-            //var enviroment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
             var host = Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    //webBuilder.UseContentRoot(skatWorkerFullPath);
                 })
                 .ConfigureLogging(l => l.AddDebug());
-                //.ConfigureAppConfiguration(x =>
-                //{
-                //    x.AddJsonFile("appsettings.json", false, true);
-                //    x.AddJsonFile($"appsettings.{enviroment}.json", true, true);
-                //    x.AddEnvironmentVariables();
-                //});
 
             return host;
         }
