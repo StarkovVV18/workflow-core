@@ -86,7 +86,7 @@ namespace SkatWorkerAPI
                     x.AddProfile<SkatWorker.Infrastructure.Mapper.SkatWorkerMapper>();
                 });
 
-            services.AddSingleton<IMapper>(x => new Mapper(mapperConfig))
+            services.AddSingleton<IMapper>(x => new Mapper(mapperConfig));
 
             // Сервисы workflow.
             services.AddWorkflow(wf => wf.UseSqlite(connectionString, true));
