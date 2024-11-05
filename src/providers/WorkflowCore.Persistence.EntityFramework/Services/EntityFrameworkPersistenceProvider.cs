@@ -552,16 +552,16 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
             using (var db = ConstructDbContext())
             {
                 var uid = new Guid(Id);
-                var raw = await db.Set<PersistedWorkflow>()
+                var raw = db.Set<PersistedWorkflow>()
                     .Include(wf => wf.ExecutionPointers)
                     .ThenInclude(ep => ep.ExtensionAttributes)
                     .Include(wf => wf.ExecutionPointers)
-                    .FirstAsync(x => x.InstanceId == uid, cancellationToken);
+                    .Where<PersistedWorkflow>(x => x.InstanceId == uid);
 
-                if (raw == null)
+                if (raw == null || !raw.Any())
                     return null;
 
-                return raw.ToWorkflowInstance();
+                return raw.FirstOrDefault<PersistedWorkflow>().ToWorkflowInstance();
             }
         }
 
