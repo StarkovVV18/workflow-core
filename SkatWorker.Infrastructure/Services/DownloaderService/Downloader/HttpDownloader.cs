@@ -110,7 +110,7 @@ namespace SkatWorker.Infrastructure.Services.DownloaderService.Downloader
 
         private string GetPathOnSaveFile(WebHeaderCollection headers)
         {
-            string tempPath = !string.IsNullOrEmpty(_requestData.SavePath) ? _requestData.SavePath : Path.GetTempPath();
+            string tempPath = !string.IsNullOrEmpty(_requestData.PathToSavedFile) ? _requestData.PathToSavedFile : Path.GetTempPath();
 
             var contentDisposition = headers.Get("Content-Disposition");
             var fileNameFromResponse = contentDisposition.Split("filename=")[1].Split(";")[0];

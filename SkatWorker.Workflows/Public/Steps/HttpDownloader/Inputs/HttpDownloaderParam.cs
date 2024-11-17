@@ -23,14 +23,14 @@
         public string Host { get; set; }
 
         /// <summary>
-        /// Имя файла с расширением.
+        /// Путь до скачиваемого файла.
         /// </summary>
-        public string FileName { get; set; }
+        public string PathToFile { get; set; }
 
         /// <summary>
-        /// Путь до скачанного файла.
+        /// Путь сохранения файла.
         /// </summary>
-        public string SavedFile { get; set; }
+        public string PathToSavedFile { get; set; }
 
         /// <summary>
         /// Тип запроса.

@@ -40,9 +40,14 @@ namespace SkatWorker.Workflows.Public.Steps.FtpDownloader
         public string Host { get; set; }
 
         /// <summary>
-        /// Директория сохранения файла.
+        /// Путь до скачиваемого файла.
         /// </summary>
-        public string SavedFile { get; set; }
+        public string PathToFile { get; set; }
+
+        /// <summary>
+        /// Путь сохранения файла.
+        /// </summary>
+        public string PathToSavedFile { get; set; }
 
 
         public FtpDownloader(ILogger<FtpDownloader> logger, DownloaderService downloaderService, IPersistenceProvider persistenceProvider)
@@ -60,9 +65,12 @@ namespace SkatWorker.Workflows.Public.Steps.FtpDownloader
             requestData.Login = Login;
             requestData.Password = Password;
             requestData.Host = Host;
-            requestData.SavePath = SavedFile;
+            requestData.PathToFile = PathToFile;
+            requestData.PathToSavedFile = PathToSavedFile;
 
             _downloaderService.SetDowloader(ftpDownloader);
+            _downloaderService.SetRequestData(requestData);
+
             var downloadResult = _downloaderService.Download();
 
             _persistenceProvider.CreateStepResult(this.CreateStepResult(context, downloadResult));

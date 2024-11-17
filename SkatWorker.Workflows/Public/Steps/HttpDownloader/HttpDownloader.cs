@@ -42,11 +42,16 @@ namespace SkatWorker.Workflows.Public.Steps.HttpDownloader
         /// URL адрес.
         /// </summary>
         public string Host { get; set; }
-        
+
         /// <summary>
-        /// Директория сохранения файла.
+        /// Путь до скачиваемого файла.
         /// </summary>
-        public string SavedFile { get; set; }
+        public string PathToFile { get; set; }
+
+        /// <summary>
+        /// Путь сохранения файла.
+        /// </summary>
+        public string PathToSavedFile { get; set; }
 
         /// <summary>
         /// Тип запроса.
@@ -74,9 +79,12 @@ namespace SkatWorker.Workflows.Public.Steps.HttpDownloader
             requestData.Password = Password;
             requestData.Host = Host;
             requestData.Token = Token;
-            requestData.SavePath = SavedFile;
+            requestData.PathToFile = PathToFile;
+            requestData.PathToSavedFile = PathToSavedFile;
 
             _downloaderService.SetDowloader(httpDownloader);
+            _downloaderService.SetRequestData(requestData);
+
             var downloadResult = _downloaderService.Download();
 
             _persistenceProvider.CreateStepResult(this.CreateStepResult(context, downloadResult));
