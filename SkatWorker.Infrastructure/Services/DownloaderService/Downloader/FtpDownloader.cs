@@ -58,8 +58,8 @@ namespace SkatWorker.Infrastructure.Services.DownloaderService.Downloader
 
         private string GetPathOnSaveFile()
         {
-            string tempPath = !string.IsNullOrEmpty(_requestData.SavePath) ? _requestData.SavePath : Path.GetTempPath();
-            string tempFileName = Path.GetFileName(_requestData.SavePath);
+            string tempPath = !string.IsNullOrEmpty(_requestData.PathToSavedFile) ? _requestData.PathToSavedFile : Path.GetTempPath();
+            string tempFileName = Path.GetFileName(_requestData.PathToFile);
 
             return Path.Combine(tempPath, tempFileName);
         }

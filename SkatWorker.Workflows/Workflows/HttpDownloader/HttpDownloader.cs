@@ -18,12 +18,13 @@ namespace SkatWorker.Workflows.Workflows.HttpDownloader
         public void Build(IWorkflowBuilder<HttpDownloaderParam> builder)
         {
             builder.StartWith<SkatWorker.Workflows.Public.Steps.HttpDownloader.HttpDownloader>()
-                .Input(step => step.Host, data => data.Host)
                 .Input(step => step.HttpMethod, data => data.HttpMethod)
+                .Input(step => step.Host, data => data.Host)
                 .Input(step => step.Login, data => data.Login)
                 .Input(step => step.Password, data => data.Password)
                 .Input(step => step.Token, data => data.Token)
-                .Input(step => step.SavedFile, data => data.SavedFile)
+                .Input(step => step.PathToFile, data => data.PathToFile)
+                .Input(step => step.PathToSavedFile, data => data.PathToSavedFile)
                 .Input(step => step.AuthenticationScheme, data => data.AuthenticationScheme);
 
         }

@@ -21,7 +21,8 @@ namespace SkatWorker.Workflows.Workflows.FtpDownloader
                 .Input(step => step.Host, data => data.Host)
                 .Input(step => step.Login, data => data.Login)
                 .Input(step => step.Password, data => data.Password)
-                .Input(step => step.SavedFile, data => data.SavedFile);
+                .Input(step => step.PathToFile, data => data.PathToFile)
+                .Input(step => step.PathToSavedFile, data => data.PathToSavedFile);
         }
 
     }
