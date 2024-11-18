@@ -59,9 +59,17 @@ namespace SkatWorker.Infrastructure.Services.DownloaderService.Downloader
 
             this.SetAuthenticationScheme(httpBuilder);
 
-            httpBuilder.OnSuccess(DownloadOnSuccess)
-                .OnFail(DownloadOnFail)
-                .Send();
+            try
+            {
+                httpBuilder.OnSuccess(DownloadOnSuccess)
+                                .OnFail(DownloadOnFail)
+                                .Send();
+            }
+            catch (Exception ex)
+            {
+                _downloadResult.Result = ex.Message;
+                _downloadResult.Error = true;
+            }
 
             return _downloadResult;
         }

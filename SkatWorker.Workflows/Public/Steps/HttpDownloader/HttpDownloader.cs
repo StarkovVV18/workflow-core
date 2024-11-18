@@ -87,6 +87,12 @@ namespace SkatWorker.Workflows.Public.Steps.HttpDownloader
 
             var downloadResult = _downloaderService.Download();
 
+            if (downloadResult.Error)
+            {
+                _persistenceProvider.CreateStepResult(this.CreateStepResult(context, downloadResult));
+                return ExecutionResult.Outcome(downloadResult.Result);
+            }
+
             _persistenceProvider.CreateStepResult(this.CreateStepResult(context, downloadResult));
 
             return ExecutionResult.Next();
